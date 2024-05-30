@@ -1,0 +1,5 @@
+*__pycache__
+*.txt
+!requirements.txt
+venv/
+.mypy_cache/
