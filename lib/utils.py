@@ -32,7 +32,7 @@ class Utilities:
     def custom_print(
         text: str,
         color: Literal["info", "debug", "error", "warn"] = "warn",
-    ) -> str:
+    ) -> None:
         """
         Print text with colors
 
@@ -41,7 +41,7 @@ class Utilities:
         :param print_bool: whether to print the text
         :param write_file: whether to write the text to a file
         :param file: the file to write the text to
-        :return: the color of the text
+        :return: 
         """
         colors = {
             "info": f"\033[1;32;48m{text}\033[1;37;0m ",
@@ -51,4 +51,4 @@ class Utilities:
         }
 
         print(colors[color])
-        return colors[color]
+        return 

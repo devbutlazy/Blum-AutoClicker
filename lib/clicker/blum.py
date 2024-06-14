@@ -64,7 +64,7 @@ class BlumClicker:
 
         try:
             window.activate()
-        except BaseException:
+        except gw._pygetwindow_win._raiseWithLastError:
             window.minimize()
             window.restore()
 
