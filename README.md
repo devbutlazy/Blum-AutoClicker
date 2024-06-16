@@ -3,7 +3,7 @@
 # Use python 3.10/3.11/3.12
 
 
-![image psd(12)](https://cdn.discordapp.com/attachments/1233052967100223522/1245758350025691236/Untitled-1.png?ex=6659ea5f&is=665898df&hm=86a5cb8825891a975fd4cf49167d4fb88178a523c27bad75899f93653ac7af2d&)
+![image psd(12)](https://media.discordapp.net/attachments/1233052967100223522/1245758350025691236/Untitled-1.png?ex=666fab1f&is=666e599f&hm=3e1d64767845b0a7f60617569cdaf99b9c5417fccdb16c691501a7ecb40d02b4&=&format=webp&quality=lossless&width=1080&height=482)
 
 # Blum Auto Clicker
 
