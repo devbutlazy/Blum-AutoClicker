@@ -64,7 +64,7 @@ class BlumClicker:
 
         try:
             window.activate()
-        except gw._pygetwindow_win._raiseWithLastError:
+        except (Exception, ExceptionGroup):
             window.minimize()
             window.restore()
 
@@ -108,7 +108,7 @@ class BlumClicker:
 
         logger.info("Initialized blum-clicker!")
         logger.info(f"Found {self.window}")
-        logger.info("Press 's' to start the programm.")
+        logger.info("Press 's' to start the program.")
 
         while True:
             if await self.handle_input():
