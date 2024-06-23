@@ -93,6 +93,29 @@ class BlumClicker:
 
         return False
 
+    async def click_on_play_button(self, screen: Any, rect: Tuple[int, int, int, int]) -> bool:
+        """
+        Click on the 'Play (nn left)' button if found.
+
+        :param screen: the screenshot
+        :param rect: the rectangle
+        :return: whether the button was found and clicked
+        """
+        width, height = screen.size
+
+        for x, y in product(range(0, width, 20), range(0, height, 20)):
+            r, g, b = screen.getpixel((x, y))
+
+            if (r, g, b) == (255, 255, 255):  # Assuming the button has white text
+                screen_x = rect[0] + x
+                screen_y = rect[1] + y
+                await self.click(screen_x, screen_y)
+                return True
+
+        return False
+    
+    
+
     async def run(self) -> None:
         """
         Runs the clicker.
@@ -120,7 +143,8 @@ class BlumClicker:
             screenshot = self.utils.capture_screenshot(rect)
 
             tasks = []
-            for _ in range(5):
+            for _ in range(10):
                 tasks.append(self.click_on_found(screenshot, rect))
 
             await asyncio.gather(*tasks)
+            await self.click_on_play_button(screenshot, rect)
