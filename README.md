@@ -15,11 +15,9 @@ Blum Auto Clicker - is a tool designed to help you manage and interact with Blum
 
 ### Installation
 
-#### For Windows Users
-
 1. **Clone the repository:**
     ```bash
-    git clone https://github.com/devbutlazy/blum-auto-clicker.git
+    git clone https://github.com/devbutlazy/Blum-AutoClicker
     cd blum-auto-clicker
     ```
 
@@ -28,23 +26,8 @@ Blum Auto Clicker - is a tool designed to help you manage and interact with Blum
     ```bash
     pip install -r requirements.txt
     ```
-	
-#### For Other Users
-
-1. **Clone the repository:**
-    ```bash
-    git clone https://github.com/devbutlazy/blum-auto-clicker.git
-    cd blum-auto-clicker
-    ```
-
-2. **Install dependencies:**
-    ```bash
-    pip3 install -r requirements.txt
-    ```
 
 ### Usage
-
-#### For Windows Users
 
 1. **Run the script:**
     Double-click on the `START.bat` file or run the following command in the command prompt:
@@ -55,16 +38,6 @@ Blum Auto Clicker - is a tool designed to help you manage and interact with Blum
 2. **Select an action:**
     - Press `s` to start the clicker
     - Press `p` to pause/resume the programm
-
-#### For Other Users
-
-1. **Run the script:**
-    ```bash
-    python3 main.py
-    ```
-
-2. **Select an action:**
-    - Press `s` to start the clicker
     - Press `p` to pause/resume the programm
 
 
