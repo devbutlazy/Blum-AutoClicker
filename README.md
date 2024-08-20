@@ -1,7 +1,3 @@
-## Recommendation before usage
-
-# Use python 3.10/3.11/3.12
-
 <img width="916" alt="blumai" src="https://github.com/user-attachments/assets/95b3a1b9-0c2c-4bb2-b904-7e63aaa4e0c5">
 
 # Blum Auto Clicker
