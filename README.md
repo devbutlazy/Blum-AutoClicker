@@ -1,13 +1,16 @@
-<img width="916" alt="blumai" src="https://github.com/user-attachments/assets/95b3a1b9-0c2c-4bb2-b904-7e63aaa4e0c5">
 
 # Blum Auto Clicker
+
+![nWWhm0vUFTxqjhatap8](https://github.com/user-attachments/assets/d9496bed-c1a0-4a1b-9673-1e64d0441621)
+
 
 Blum Auto Clicker - is a tool designed to help you manage and interact with BlumCryptoBot. This tool will click on green objects instead of you, earning from 200-250 blums.
 
 ### Features
-- Not detective (as it not uses requests)
+- Not detective (as it not uses requests) and doesn't collect all blums
 - Almost not collects bombs
 - Automate interaction with BlumCryptoBot
+- Detects Telegram and 64Gram
 
 ### Installation
 
@@ -25,6 +28,7 @@ Blum Auto Clicker - is a tool designed to help you manage and interact with Blum
 
 ### Usage
 
+
 1. **Run the script:**
     Double-click on the `START.bat` file or run the following command in the command prompt:
 	```bash
@@ -33,7 +37,6 @@ Blum Auto Clicker - is a tool designed to help you manage and interact with Blum
 
 2. **Select an action:**
     - Press `s` to start the clicker
-    - Press `p` to pause/resume the programm
     - Press `p` to pause/resume the programm
 
 

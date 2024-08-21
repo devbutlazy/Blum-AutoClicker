@@ -1,6 +1,6 @@
 import asyncio
-from itertools import product
 import random
+from itertools import product
 
 import keyboard
 import pygetwindow as gw
@@ -122,7 +122,7 @@ class BlumClicker:
         :return:
         """
 
-        self.window = "TelegramDesktop"
+        self.window = "TelegramDesktop" or "64GramDesktop"
         window = gw.getWindowsWithTitle(self.window)
 
         if not window:
