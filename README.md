@@ -30,7 +30,7 @@ Blum Auto Clicker - is a tool designed to help you manage and interact with Blum
 
 
 1. **Run the script:**
-    Double-click on the `START.bat` file or run the following command in the command prompt:
+   Run the following command in the command prompt:
 	```bash
 	python main.py
 	```
