@@ -1,16 +1,15 @@
-from lib import BlumClicker
-from static import AUTOCLICKER_TEXT, DONATE_TEXT
-import asyncio
 import os
+import asyncio
+
+from core.clicker.blum import BlumClicker
+from main.static import CREDITS, AUTOCLICKER_TEXT, DONATE_TEXT
 
 
 async def main() -> None:
-    if os.name == "nt":
-        os.system("cls")
-    else:
-        os.system("clear")
+    os.system("cls")
 
     print(AUTOCLICKER_TEXT)
+    print(CREDITS)
     print(DONATE_TEXT)
 
     clicker = BlumClicker()

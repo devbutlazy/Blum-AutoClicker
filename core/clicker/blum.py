@@ -7,9 +7,9 @@ import pygetwindow as gw
 from pynput.mouse import Button, Controller
 
 from typing import Tuple, Any
-from lib.utils import Utilities
-from lib.logger import logger
-from static import WINDOW_NOT_FOUND
+from core.utils import Utilities
+from core.logger import logger
+from main.static import WINDOW_NOT_FOUND
 
 
 class BlumClicker:
@@ -18,7 +18,7 @@ class BlumClicker:
         self.utils = Utilities()
 
         self.paused: bool = True
-        self.window: str = None
+        self.window_options: str | None = None
 
     async def click(self, x: int, y: int) -> None:
         """
@@ -47,12 +47,17 @@ class BlumClicker:
 
         elif keyboard.is_pressed("p"):
             self.paused = not self.paused
-            logger.info("Paused. To resume press 'p'" if self.paused else "Resumed. To pause press 'p'")
+            logger.info(
+                "Paused. To resume press 'p'"
+                if self.paused
+                else "Resumed. To pause press 'p'"
+            )
             await asyncio.sleep(0.2)
 
         return self.paused
 
-    def activate_window(self, window: Any) -> None:
+    @staticmethod
+    def activate_window(window: Any) -> None:
         """
         Activate the window.
 
@@ -93,7 +98,9 @@ class BlumClicker:
 
         return False
 
-    async def click_on_play_button(self, screen: Any, rect: Tuple[int, int, int, int]) -> bool:
+    async def click_on_play_button(
+        self, screen: Any, rect: Tuple[int, int, int, int]
+    ) -> bool:
         """
         Click on the 'Play (nn left)' button if found.
 
@@ -113,24 +120,25 @@ class BlumClicker:
                 return True
 
         return False
-    
-    
 
     async def run(self) -> None:
-        """
-        Runs the clicker.
-        :return:
-        """
+        """Runs the clicker."""
 
-        self.window = "TelegramDesktop" or "64GramDesktop"
-        window = gw.getWindowsWithTitle(self.window)
+        window = next(
+            (
+                gw.getWindowsWithTitle(opt)
+                for opt in ["TelegramDesktop", "64Gram"]
+                if gw.getWindowsWithTitle(opt)
+            ),
+            None,
+        )
 
         if not window:
             logger.error(WINDOW_NOT_FOUND)
             return
 
         logger.info("Initialized blum-clicker!")
-        logger.info(f"Found {self.window}")
+        logger.info(f"Found blum window: {window[0].title}")
         logger.info("Press 's' to start the program.")
 
         while True:
