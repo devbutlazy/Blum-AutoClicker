@@ -1,5 +1,6 @@
 *__pycache__
 *.txt
+.idea/
 !requirements.txt
 venv/
 .mypy_cache/
