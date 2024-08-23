@@ -39,4 +39,4 @@ Blum Auto Clicker - is a tool designed to help you manage and interact with Blum
     - Press `s` to start the clicker
    - Press `p` to pause/resume the program
 
-## You should firstly start the game, and then press 's' to start.
+## You should firstly start the blum game, and then press 's' to start.

@@ -124,35 +124,39 @@ class BlumClicker:
     async def run(self) -> None:
         """Runs the clicker."""
 
-        window = next(
-            (
-                gw.getWindowsWithTitle(opt)
-                for opt in ["TelegramDesktop", "64Gram"]
-                if gw.getWindowsWithTitle(opt)
-            ),
-            None,
-        )
+        try:
+            window = next(
+                (
+                    gw.getWindowsWithTitle(opt)
+                    for opt in ["TelegramDesktop", "64Gram"]
+                    if gw.getWindowsWithTitle(opt)
+                ),
+                None,
+            )
 
-        if not window:
-            logger.error(WINDOW_NOT_FOUND)
-            return
+            if not window:
+                logger.error(WINDOW_NOT_FOUND)
+                return
 
-        logger.info("Initialized blum-clicker!")
-        logger.info(f"Found blum window: {window[0].title}")
-        logger.info("Press 's' to start the program.")
+            logger.info("Initialized blum-clicker!")
+            logger.info(f"Found blum window: {window[0].title}")
+            logger.info("Press 's' to start the program.")
 
-        while True:
-            if await self.handle_input():
-                continue
+            while True:
+                if await self.handle_input():
+                    continue
 
-            rect = self.utils.get_rect(window[0])
-            self.activate_window(window[0])
+                rect = self.utils.get_rect(window[0])
+                self.activate_window(window[0])
 
-            screenshot = self.utils.capture_screenshot(rect)
+                screenshot = self.utils.capture_screenshot(rect)
 
-            tasks = []
-            for _ in range(10):
-                tasks.append(self.click_on_found(screenshot, rect))
+                tasks = []
+                for _ in range(10):
+                    tasks.append(self.click_on_found(screenshot, rect))
 
-            await asyncio.gather(*tasks)
-            await self.click_on_play_button(screenshot, rect)
+                await asyncio.gather(*tasks)
+                await self.click_on_play_button(screenshot, rect)
+
+        except gw.PyGetWindowException as error:
+            logger.error(f"The window might have been closed. Window error: {str(error)}.")
