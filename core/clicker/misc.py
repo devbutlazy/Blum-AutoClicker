@@ -1,6 +1,7 @@
 import pyautogui
+import pygetwindow as gw
 
-from typing import Tuple, Any
+from typing import Tuple, Any, TypedDict
 from dataclasses import dataclass
 
 
@@ -26,3 +27,25 @@ class Utilities:
         :return: A screenshot image of the specified region
         """
         return pyautogui.screenshot(region=rect)
+
+    @staticmethod
+    def get_window() -> Any:
+        """
+        Get the blum window.
+
+        :return: The blum window
+        """
+        window = next(
+            (
+                gw.getWindowsWithTitle(opt)
+                for opt in ["TelegramDesktop", "64Gram", "Nekogram", "AyuGram"]
+                if gw.getWindowsWithTitle(opt)
+            ),
+            None,
+        )[0]
+
+        if window and not window.isActive:
+            window.minimize()
+            window.restore()
+
+        return window
