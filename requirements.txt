@@ -1,5 +1,7 @@
 pyautogui 
 pygetwindow 
-pynput 
+mouse
+ujson
+pyscreeze
 keyboard
 loguru

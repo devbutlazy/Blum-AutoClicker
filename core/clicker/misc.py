@@ -1,7 +1,7 @@
 import pyautogui
 import pygetwindow as gw
 
-from typing import Tuple, Any, TypedDict
+from typing import Tuple, Any
 from dataclasses import dataclass
 
 
@@ -35,17 +35,19 @@ class Utilities:
 
         :return: The blum window
         """
-        window = next(
+        windows = next(
             (
                 gw.getWindowsWithTitle(opt)
                 for opt in ["TelegramDesktop", "64Gram", "Nekogram", "AyuGram"]
                 if gw.getWindowsWithTitle(opt)
             ),
             None,
-        )[0]
+        )
 
-        if window and not window.isActive:
-            window.minimize()
-            window.restore()
+        if windows and not windows[0].isActive:
+            windows[0].minimize()
+            windows[0].restore()
 
-        return window
+            return windows[0]
+
+        return None

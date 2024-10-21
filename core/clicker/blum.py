@@ -18,7 +18,6 @@ class BlumClicker:
 
         self.paused: bool = True
         self.window_options: str | None = None
-        self.game_active: bool = False  # To track game state (active or ended)
 
     async def handle_input(self) -> bool:
         """
