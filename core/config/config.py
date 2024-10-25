@@ -11,10 +11,14 @@ CONFIG_PATH = "core/config/config.json"
 
 class Language(Enum):
     EN = "en"
+    ENG = "en"
     GB = "en"  # Alias for EN
 
     UA = "ua"
     UKR = "ua"  # Alias for UA
+
+    PL = "pl"
+    POL = "pl"  # Alias for PL
 
     @classmethod
     def is_valid(cls, lang: str) -> bool:
