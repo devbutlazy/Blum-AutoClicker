@@ -31,6 +31,8 @@ class Language(Enum):
             "ukr": cls.UA.value,
             "en": cls.EN.value,
             "gb": cls.EN.value,
+            "pl": cls.PL.value,
+            "pol": cls.PL.value,
         }
         return aliases.get(lang.lower(), cls.EN.value)  # Default to English
 
