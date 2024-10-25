@@ -6,3 +6,4 @@ pyscreeze
 keyboard
 loguru
 opencv-python
+numpy
