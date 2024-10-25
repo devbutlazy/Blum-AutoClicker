@@ -1,7 +1,8 @@
 pyautogui 
-pygetwindow 
+pywinctl 
 mouse
 ujson
 pyscreeze
 keyboard
 loguru
+opencv-python

@@ -1,5 +1,5 @@
 import pyautogui
-import pygetwindow as gw
+import pywinctl as pwc
 
 from typing import Tuple, Any
 from dataclasses import dataclass
@@ -37,9 +37,9 @@ class Utilities:
         """
         windows = next(
             (
-                gw.getWindowsWithTitle(opt)
+                pwc.getWindowsWithTitle(opt)
                 for opt in ["TelegramDesktop", "64Gram", "Nekogram", "AyuGram"]
-                if gw.getWindowsWithTitle(opt)
+                if pwc.getWindowsWithTitle(opt)
             ),
             None,
         )

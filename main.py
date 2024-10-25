@@ -3,7 +3,7 @@ import argparse
 import asyncio
 
 from core.clicker.blum import BlumClicker
-from core.config.config import set_language
+from core.config.config import set_language, set_dogs
 from core.localization.localization import get_language
 from core.logger.logger import logger
 
@@ -45,25 +45,17 @@ if __name__ == "__main__":
         help="Set language for the programm (e.g., --lang ua)",
     )
     parser.add_argument(
-        "--replays",
-        "--maxreplays",
+        "--dogs",
+        "--dogs-collect",
         type=str,
-        help="Set max number of replays for the programm (e.g., --replays 100)",
-    )
-    parser.add_argument(
-        "--max_clicks",
-        "--maxclicks",
-        type=str,
-        help="Set max number of clicks for the programm per game (e.g., --max_clicks 100)",
+        help="Set the value for collecting p (e.g., --dogs true/false)",
     )
     args = parser.parse_args()
 
     if args.lang:
         set_language(args.lang)
-    elif args.replays:
-        logger.info("Sorry, replays are not supported yet.")
-    elif args.max_clicks:
-        logger.info("Sorry, max_clicks amount customization is not supported yet.")
+    elif args.dogs:
+        set_dogs(True if args.dogs.lower() == "true" else False)
 
     try:
         asyncio.run(main())

@@ -1,4 +1,5 @@
 import ujson
+import os
 
 from core.logger.logger import logger
 
@@ -24,7 +25,6 @@ class Language(Enum):
         aliases = {
             "ua": cls.UA.value,
             "ukr": cls.UA.value,
-
             "en": cls.EN.value,
             "gb": cls.EN.value,
         }
@@ -49,10 +49,53 @@ def set_language(language: str) -> None:
         with open(CONFIG_PATH, "w", encoding="utf-8") as f:
             ujson.dump(config, f, indent=4)
 
-        logger.info(f"Language set to: {normalized_language}")
-
     except (FileNotFoundError, ujson.JSONDecodeError) as e:
         logger.error(f"Error with config file: {e}")
+        os._exit(1)
 
     except Exception as e:
         logger.error(f"An error occurred while updating the config: {e}")
+        os._exit(1)
+
+
+def set_dogs(value: bool) -> None:
+    """
+    Set the value for collecting dogs.
+
+    :param: value (bool): The value to set.
+    :return: None
+    """
+    try:
+        with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+            config: Dict = ujson.load(f)
+
+        config["COLLECT_DOGS"] = value
+
+        with open(CONFIG_PATH, "w", encoding="utf-8") as f:
+            ujson.dump(config, f, indent=4)
+
+    except (FileNotFoundError, ujson.JSONDecodeError) as e:
+        logger.error(f"Error with config file: {e}")
+        os._exit(1)
+
+
+def get_config_value(key: str) -> str:
+    """
+    Get the value of a config key.
+
+    :param: key (str): The key to get the value of.
+    :return: str: The value of the config key or None if it doesn't exist.
+    """
+    try:
+        with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+            config: Dict = ujson.load(f)
+
+        return config.get(key, None)
+
+    except (FileNotFoundError, ujson.JSONDecodeError) as e:
+        logger.error(f"Error with config file: {e}")
+        os._exit(1)
+
+    except Exception as e:
+        logger.error(f"An error occurred while getting the config value: {e}")
+        os._exit(1)

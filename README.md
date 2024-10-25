@@ -17,8 +17,8 @@
 ## ⚡ v2 Features
 1. Better and faster detection of points;
 2. Human clicks emulation by miss-clicking sometimes;
-3. Full customization (min/max amount; max replays);
-4. Localization to different languages;
+3. Localization to different languages;
+4. Dogs points collection;
 5. Aiogram, 64Gram, Nekogram, Telegram support;
 
 
@@ -40,8 +40,38 @@ Clone this [**Repository**](https://github.com/devbutlazy/Blum-AutoClicker) and 
 ~/Blum-AutoClicker >>> python main.py # Run the soft
 ```
 
+> [!TIP]
+> If you face some errors join  **[Telegram channel](https://t.me/blogbutlazy)** and **[Telegram Chat](https://t.me/chatbutlazy)** and ask for help there.
+
+
+# ⭐ Advanced features (`core/config/config.json`)
+
+- [x] Localization to different languages. You can find the list of avaliable langs **[here](https://github.com/devbutlazy/Blum-AutoClicker/tree/v2-dev/core/localization/langs)**.
+```shell
+
+# GNU/Linux
+~/Blum-AutoClicker >>> python3 main.py --setlang lang # Instead of lang type the shorten available languag
+~/Blum-AutoClicker >>> python3 main.py --setlang ua # Example
+
+
+# Windows
+~/Blum-AutoClicker >>> python main.py --setlang lang # Instead of lang type the shorten available languag
+~/Blum-AutoClicker >>> python main.py --setlang ua # Example
+```
+
+- [x] Dogs collection. You can decide the program behaviour towards dogs collection (true or false)
+```shell
+
+# GNU/Linux
+~/Blum-AutoClicker >>> python3 main.py --dogs true/false # Decide if you want the programm to collect the dogs or not (true - yes, false - no)
+
+
+# Windows
+~/Blum-AutoClicker >>> python main.py --dogs true/false # Decide if you want the programm to collect the dogs or not (true - yes, false - no)
+```
+
 > [!IMPORTANT]
-> If you face some errors join  **[Telegram channel](https://t.me/blogbutlazy)** and **[Telegram Chat]((https://t.me/chatbutlazy))** and ask for help there.
+> The dogs collection requires better PC, as it uses OpenCV techniques, so if it works bad for you, just disable it. In addition, all of the settings arguments (language or dogs) should be typed in English.
 
 <br>
 

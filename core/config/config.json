@@ -1,5 +1,4 @@
 {
     "LANGUAGE": "en",
-    "MAX_CLICKS (Not Implemented)": 200,
-    "REPLAYS (Not Implemented)": 3
+    "COLLECT_DOGS": false
 }
