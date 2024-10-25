@@ -5,6 +5,7 @@ import keyboard
 import mouse
 import cv2
 import numpy as np
+import pyautogui
 
 from typing import Tuple, Any
 from core.clicker.misc import Utilities
@@ -16,6 +17,7 @@ from core.config.config import get_config_value
 class BlumClicker:
     def __init__(self):
         self.utils = Utilities()
+        
         self.paused: bool = True
         self.window_options: str | None = None
 
@@ -127,6 +129,33 @@ class BlumClicker:
 
         return False
 
+    @staticmethod
+    def click_on_play_button(screen: Any, rect: Tuple[int, int, int, int]
+    ) -> bool:
+        """
+        Click on the 'Play (nn left)' button.
+
+        :param screen: the screenshot
+        :param rect: the rectangle
+        :return: whether the image was found
+        """
+
+        width, height = screen.size
+        x, y = int(width * 0.3075), int(height * 0.87)   # (123, 609) button position 
+
+        screen_x = rect[0] + x
+        screen_y = rect[1] + y
+        (r,g,b) = pyautogui.pixel(screen_x, screen_y)
+
+        if (r,g,b) == (255,255,255): 
+            mouse.move(screen_x, screen_y, absolute=True)
+            mouse.click(button=mouse.LEFT)
+
+            return True
+        
+        return False
+    
+
     async def run(self) -> None:
         """
         Runs the clicker.
@@ -153,6 +182,8 @@ class BlumClicker:
 
                 if get_config_value("COLLECT_DOGS"):
                     self.collect_dog(screenshot, rect)
+
+                self.click_on_play_button(screenshot, rect)
 
         except (Exception, ExceptionGroup) as error:
             logger.error(get_language("WINDOW_CLOSED").format(error=error))

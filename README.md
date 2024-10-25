@@ -25,7 +25,7 @@
 ## 📕 Installation
 Clone this [**Repository**](https://github.com/devbutlazy/Blum-AutoClicker) and run the soft:
 ```shell
-~ >>> git clone hhttps://github.com/devbutlazy/Blum-AutoClicker  
+~ >>> git clone https://github.com/devbutlazy/Blum-AutoClicker  
 ~ >>> cd Blum-AutoClicker
 
 
