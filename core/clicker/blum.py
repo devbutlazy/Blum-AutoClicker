@@ -127,6 +127,42 @@ class BlumClicker:
 
         return False
 
+    @staticmethod
+    def collect_button(screen: Any, rect: Tuple[int, int, int, int]) -> bool:
+        """
+        Detect and click on the white button with black text located at the bottom of the screen.
+
+        :param screen: the screenshot
+        :param rect: the rectangle
+        :return: whether the button was found and clicked
+        """
+        width, height = screen.size
+        button_color = (255, 255, 255)  # RGB for white
+        text_color = (0, 0, 0)  # RGB for black
+        button_found = False
+
+        # Define the search area (lower part of the screen)
+        search_area_start_y = int(height * 0.75)  # Start searching from 75% of the height
+        search_area_end_y = height  # Search until the bottom of the screen
+
+        for y in range(search_area_start_y, search_area_end_y):
+            for x in range(width):
+                if screen.getpixel((x, y)) == button_color:
+                    # Check for a rectangle by looking for adjacent white pixels
+                    if all(screen.getpixel((x, y + offset)) == button_color for offset in range(1, 10)):  # Check the next 10 pixels down
+                        # Assume the button is found, now check for black text
+                        if (x < width - 1 and screen.getpixel((x + 1, y)) == text_color) or (x > 0 and screen.getpixel((x - 1, y)) == text_color):
+                            screen_x = rect[0] + x + 10  # Offset to click in the center of the button
+                            screen_y = rect[1] + y + 5  # Offset down to center the click vertically
+                            mouse.move(screen_x, screen_y, absolute=True)
+                            mouse.click(button=mouse.LEFT)
+                            button_found = True
+                            break
+            if button_found:
+                break
+
+        return button_found
+
     async def run(self) -> None:
         """
         Runs the clicker.
@@ -148,11 +184,15 @@ class BlumClicker:
 
                 screenshot = self.utils.capture_screenshot(rect)
 
-                self.collect_green(screenshot, rect)
+                is_green = self.collect_green(screenshot, rect)
                 self.collect_freeze(screenshot, rect)
 
                 if get_config_value("COLLECT_DOGS"):
                     self.collect_dog(screenshot, rect)
+
+                if not is_green:
+                    self.collect_button(screenshot, rect)
+
 
         except (Exception, ExceptionGroup) as error:
             logger.error(get_language("WINDOW_CLOSED").format(error=error))
