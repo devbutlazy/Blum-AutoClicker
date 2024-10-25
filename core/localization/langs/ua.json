@@ -1,0 +1,16 @@
+{
+    "CREDITS": "Автор: https://github.com/devbutlazy/Blum-AutoClicker",
+    "DONATION": "Для кави <3 (TON):",
+
+    "PRESS_S_TO_START": "-> Натисніть 's', щоб почати програму.",
+    "PRESS_P_TO_PAUSE": "-> Натисніть 'p', щоб призупинити програму.",
+
+    "PROGRAM_PAUSED": "(?) Призупинено. Щоб продовжити, натисніть 'p'",
+    "PROGRAM_RESUMED": "(>) Відновлено. Щоб призупинити, натисніть 'p'",
+
+    "CLICKER_INITIALIZED": "-> Кліккер ініціалізовано.",
+    "FOUND_WINDOW": "Знайдено вікно blum -> {window}",
+
+    "WINDOW_CLOSED": "Можливо, вікно було закрите. Помилка вікна: {error}.",
+    "WINDOW_NOT_FOUND": "Вікно Blum не знайдено! Будь ласка, відкрийте його і перезапустіть програму."
+}

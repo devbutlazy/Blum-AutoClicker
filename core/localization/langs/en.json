@@ -1,0 +1,16 @@
+{
+    "CREDITS": "Credits: https://github.com/devbutlazy/Blum-AutoClicker",
+    "DONATION": "For a coffee <3 (TON):",
+
+    "PRESS_S_TO_START": "-> Press 's' to start the program.",
+    "PRESS_P_TO_PAUSE": "-> Press 'p' for pausing the program.",
+
+    "PROGRAM_PAUSED": "(?) Paused. To resume press 'p'",
+    "PROGRAM_RESUMED": "(>) Resumed. To pause press 'p'",
+
+    "CLICKER_INITIALIZED": "-> Initialized clicker.",
+    "FOUND_WINDOW": "Found blum window -> {window}",
+
+    "WINDOW_CLOSED": "The window might have been closed. Window error: {error}.",
+    "WINDOW_NOT_FOUND": "Blum window not found! Please open it, and restart the program."
+}

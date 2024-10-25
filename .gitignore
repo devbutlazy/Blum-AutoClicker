@@ -1,6 +1,6 @@
-*__pycache__
-*.txt
-.idea/
-!requirements.txt
-venv/
-.mypy_cache/
+*/__pycache__
+*.db
+.env
+*__pycache__/
+*.idea/
+*venv/

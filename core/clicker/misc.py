@@ -1,4 +1,5 @@
 import pyautogui
+import pywinctl as pwc
 
 from typing import Tuple, Any
 from dataclasses import dataclass
@@ -26,3 +27,27 @@ class Utilities:
         :return: A screenshot image of the specified region
         """
         return pyautogui.screenshot(region=rect)
+
+    @staticmethod
+    def get_window() -> Any:
+        """
+        Get the blum window.
+
+        :return: The blum window
+        """
+        windows = next(
+            (
+                pwc.getWindowsWithTitle(opt)
+                for opt in ["TelegramDesktop", "64Gram", "Nekogram", "AyuGram"]
+                if pwc.getWindowsWithTitle(opt)
+            ),
+            None,
+        )
+
+        if windows and not windows[0].isActive:
+            windows[0].minimize()
+            windows[0].restore()
+
+            return windows[0]
+
+        return None

@@ -1,83 +1,79 @@
 import asyncio
-import random
 from itertools import product
 
 import keyboard
-import pygetwindow as gw
-from pynput.mouse import Button, Controller
+import mouse
+import cv2
+import numpy as np
 
 from typing import Tuple, Any
-from core.utils import Utilities
-from core.logger import logger
-from main.static import WINDOW_NOT_FOUND
+from core.clicker.misc import Utilities
+from core.logger.logger import logger
+from core.localization.localization import get_language
+from core.config.config import get_config_value
 
 
 class BlumClicker:
     def __init__(self):
-        self.mouse: Controller = Controller()
         self.utils = Utilities()
-
         self.paused: bool = True
         self.window_options: str | None = None
 
-    async def click(self, x: int, y: int) -> None:
-        """
-        Click the mouse.
-
-        :param x: the x coordinate
-        :param y: the y coordinate
-        :return: None
-        """
-        self.mouse.position = (x, y + random.randint(1, 3))
-        self.mouse.press(Button.left)
-        self.mouse.release(Button.left)
-
     async def handle_input(self) -> bool:
         """
-        Handles the input.
+        Handles the input for pausing or starting the clicker.
 
         :return: whether the input was handled
         """
-
         if keyboard.is_pressed("s") and self.paused:
             self.paused = False
-            logger.info("Started 5 threads.")
-            logger.info("Press 'p' for pausing the program.")
+            logger.info(get_language("PRESS_P_TO_PAUSE"))
             await asyncio.sleep(0.2)
 
         elif keyboard.is_pressed("p"):
             self.paused = not self.paused
             logger.info(
-                "Paused. To resume press 'p'"
+                get_language("PROGRAM_PAUSED")
                 if self.paused
-                else "Resumed. To pause press 'p'"
+                else get_language("PROGRAM_RESUMED")
             )
             await asyncio.sleep(0.2)
 
         return self.paused
 
     @staticmethod
-    def activate_window(window: Any) -> None:
+    def collect_green(screen: Any, rect: Tuple[int, int, int, int]) -> bool:
         """
-        Activate the window.
+        Click on the found point.
 
-        :param window: the window
-        :return: None
+        :param screen: the screenshot
+        :param rect: the rectangle
+        :return: whether the image was found
         """
-        if not window:
-            return
+        width, height = screen.size
+        avoid_color = (196, 247, 94)
 
-        try:
-            window.activate()
-        except (Exception, ExceptionGroup):
-            window.minimize()
-            window.restore()
+        for x, y in product(range(0, width, 20), range(0, height, 20)):
+            r, g, b = screen.getpixel((x, y))
+            greenish_range = (b < 125) and (102 <= r < 220) and (200 <= g < 255)
 
-    async def click_on_found(
-        self, screen: Any, rect: Tuple[int, int, int, int]
-    ) -> bool:
+            if (r, g, b) == avoid_color:
+                continue
+
+            if greenish_range:
+                screen_x = rect[0] + x
+                screen_y = rect[1] + y
+                mouse.move(screen_x, screen_y, absolute=True)
+                mouse.click(button=mouse.LEFT)
+
+                return True
+
+        return False
+
+    @staticmethod
+    def collect_freeze(screen: Any, rect: Tuple[int, int, int, int]) -> bool:
         """
-        Click on the found image.
+        Click on the found freeze.
 
         :param screen: the screenshot
         :param rect: the rectangle
@@ -87,76 +83,76 @@ class BlumClicker:
 
         for x, y in product(range(0, width, 20), range(0, height, 20)):
             r, g, b = screen.getpixel((x, y))
+            blueish_range = (215 < b < 255) and (100 <= r < 166) and (220 <= g < 254)
 
-            greenish_range = (b < 125) and (102 <= r < 220) and (200 <= g < 255)
-
-            if greenish_range:
+            if blueish_range:
                 screen_x = rect[0] + x
                 screen_y = rect[1] + y
-                await self.click(screen_x + 4, screen_y)
+                mouse.move(screen_x, screen_y, absolute=True)
+                mouse.click(button=mouse.LEFT)
                 return True
 
         return False
 
-    async def click_on_play_button(
-        self, screen: Any, rect: Tuple[int, int, int, int]
-    ) -> bool:
+    @staticmethod
+    def collect_dog(screen: Any, rect: Tuple[int, int, int, int]) -> bool:
         """
-        Click on the 'Play (nn left)' button if found.
+        Detepct and click on the dog's face based on its specific color.
 
-        :param screen: the screenshot
-        :param rect: the rectangle
-        :return: whether the button was found and clicked
+        :param screen: the screenshot in BGR format
+        :param rect: the bounding rectangle of the screen
+        :return: whether the dog was found
         """
-        width, height = screen.size
+        hsv = cv2.cvtColor(
+            cv2.cvtColor(np.array(screen), cv2.COLOR_RGB2BGR), cv2.COLOR_BGR2HSV
+        )
 
-        for x, y in product(range(0, width, 20), range(0, height, 20)):
-            r, g, b = screen.getpixel((x, y))
+        lower_white = np.array([0, 0, 200], dtype=np.uint8)
+        upper_white = np.array([180, 55, 255], dtype=np.uint8)
 
-            if (r, g, b) == (255, 255, 255):  # Assuming the button has white text
-                screen_x = rect[0] + x
-                screen_y = rect[1] + y
-                await self.click(screen_x, screen_y)
+        mask = cv2.inRange(hsv, lower_white, upper_white)
+        contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+        for contour in contours:
+            area = cv2.contourArea(contour)
+            if 500 < area < 3000:
+                x, y, w, h = cv2.boundingRect(contour)
+                screen_x = rect[0] + x + w // 2
+                screen_y = rect[1] + y + h // 2
+
+                mouse.move(screen_x, screen_y, absolute=True)
+                mouse.click(button=mouse.LEFT)
+
                 return True
 
         return False
 
     async def run(self) -> None:
-        """Runs the clicker."""
-
+        """
+        Runs the clicker.
+        """
         try:
-            window = next(
-                (
-                    gw.getWindowsWithTitle(opt)
-                    for opt in ["TelegramDesktop", "64Gram"]
-                    if gw.getWindowsWithTitle(opt)
-                ),
-                None,
-            )
-
+            window = self.utils.get_window()
             if not window:
-                logger.error(WINDOW_NOT_FOUND)
-                return
+                return logger.error(get_language("WINDOW_NOT_FOUND"))
 
-            logger.info("Initialized blum-clicker!")
-            logger.info(f"Found blum window: {window[0].title}")
-            logger.info("Press 's' to start the program.")
+            logger.info(get_language("CLICKER_INITIALIZED"))
+            logger.info(get_language("p").format(window=window.title))
+            logger.info(get_language("PRESS_S_TO_START"))
 
             while True:
                 if await self.handle_input():
                     continue
 
-                rect = self.utils.get_rect(window[0])
-                self.activate_window(window[0])
+                rect = self.utils.get_rect(window)
 
                 screenshot = self.utils.capture_screenshot(rect)
 
-                tasks = []
-                for _ in range(10):
-                    tasks.append(self.click_on_found(screenshot, rect))
+                self.collect_green(screenshot, rect)
+                self.collect_freeze(screenshot, rect)
 
-                await asyncio.gather(*tasks)
-                await self.click_on_play_button(screenshot, rect)
+                if get_config_value("COLLECT_DOGS"):
+                    self.collect_dog(screenshot, rect)
 
-        except gw.PyGetWindowException as error:
-            logger.error(f"The window might have been closed. Window error: {str(error)}.")
+        except (Exception, ExceptionGroup) as error:
+            logger.error(get_language("WINDOW_CLOSED").format(error=error))
