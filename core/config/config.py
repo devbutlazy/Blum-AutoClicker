@@ -20,8 +20,11 @@ class Language(Enum):
     PL = "pl"
     POL = "pl"  # Alias for PL
 
-    HU = "hu"
+    HU = "hu" # Alias for HU
     HUN = "hu"
+
+    FA = "fa" # Alias for FA
+    PR = "fa"
 
     @classmethod
     def is_valid(cls, lang: str) -> bool:
@@ -38,6 +41,8 @@ class Language(Enum):
             "pol": cls.PL.value,
             "hu": cls.HU.value,
             "hun": cls.HU.value,
+            "fa": cls.FA.value,
+            "pr": cls.FA.value
         }
         return aliases.get(lang.lower(), cls.EN.value)  # Default to English
 
