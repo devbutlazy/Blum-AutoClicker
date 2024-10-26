@@ -7,11 +7,12 @@ import cv2
 import numpy as np
 import pyautogui
 
-from typing import Tuple, Any
 from core.clicker.misc import Utilities
 from core.logger.logger import logger
 from core.localization.localization import get_language
 from core.config.config import get_config_value
+
+from typing import Tuple, Any
 
 
 class BlumClicker:

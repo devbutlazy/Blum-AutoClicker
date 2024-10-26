@@ -87,7 +87,7 @@ If you have any ideas or suggestions to make, feel free to [open an issue](https
 
 
 ## ☕ Buy me a coffee 
-    USTD (ERC-20): 0x5F06C1c23aF7Cc644B8cBaF0e2b294CbA15CC745
+    USDT (ERC-20): 0x5F06C1c23aF7Cc644B8cBaF0e2b294CbA15CC745
     TON: UQBTHDZJnuDr4-v6oc_cDRXYdqggIoQA_tLGv5z2li4DC7GI
 
 
