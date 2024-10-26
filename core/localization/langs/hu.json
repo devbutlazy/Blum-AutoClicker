@@ -1,0 +1,16 @@
+{
+    "CREDITS": "Forrás: https://github.com/devbutlazy/Blum-AutoClicker",
+    "DONATION": "Egy kávéra <3 (TON):",
+
+    "PRESS_S_TO_START": "-> Nyomja meg az 's' gombot a program indításához.",
+    "PRESS_P_TO_PAUSE": "-> Nyomja meg a 'p' gombot a program szüneteltetéséhez.",
+
+    "PROGRAM_PAUSED": "(?) Szünet. A folytatáshoz nyomja meg a 'p' gombot.",
+    "PROGRAM_RESUMED": "(>) Folytatás. A szüneteltetéshez nyomja meg a 'p' gombot.",
+
+    "CLICKER_INITIALIZED": "-> Kliker inicializálva.",
+    "FOUND_WINDOW": "Blum ablak megtalálva -> {window}",
+
+    "WINDOW_CLOSED": "Az ablakot esetleg bezárták. Ablakhiba: {error}.",
+    "WINDOW_NOT_FOUND": "Blum ablak nem található! Kérjük, nyissa meg, és indítsa újra a programot."
+}

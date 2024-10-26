@@ -20,6 +20,9 @@ class Language(Enum):
     PL = "pl"
     POL = "pl"  # Alias for PL
 
+    HU = "hu"
+    HUN = "hu"
+
     @classmethod
     def is_valid(cls, lang: str) -> bool:
         return lang in cls._value2member_map_
@@ -33,6 +36,8 @@ class Language(Enum):
             "gb": cls.EN.value,
             "pl": cls.PL.value,
             "pol": cls.PL.value,
+            "hu": cls.HU.value,
+            "hun": cls.HU.value,
         }
         return aliases.get(lang.lower(), cls.EN.value)  # Default to English
 
