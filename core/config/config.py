@@ -28,23 +28,24 @@ class Language(Enum):
 
     @classmethod
     def is_valid(cls, lang: str) -> bool:
-        return lang in cls._value2member_map_
+        """
+        Check if the language string is a valid Language enum member.
+
+        :param lang: The language string to check.
+        :return: True if the language is valid, False otherwise.
+        """
+        return lang.upper() in cls.__members__
 
     @classmethod
     def normalize(cls, lang: str) -> str:
-        aliases = {
-            "ua": cls.UA.value,
-            "ukr": cls.UA.value,
-            "en": cls.EN.value,
-            "gb": cls.EN.value,
-            "pl": cls.PL.value,
-            "pol": cls.PL.value,
-            "hu": cls.HU.value,
-            "hun": cls.HU.value,
-            "fa": cls.FA.value,
-            "pr": cls.FA.value
-        }
-        return aliases.get(lang.lower(), cls.EN.value)  # Default to English
+        """
+        Normalize the language string to a valid Language enum member.
+
+        :param lang: The language string to normalize.
+        :return: The normalized language string.
+        """
+        member = cls.__members__.get(lang.upper(), cls.EN)
+        return member.value
 
 
 def set_language(language: str) -> None:
