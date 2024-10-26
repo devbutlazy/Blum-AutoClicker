@@ -1,0 +1,16 @@
+{
+    "CREDITS": "Autor: https://github.com/devbutlazy/Blum-AutoClicker",
+    "DONATION": "Na kawę <3 (TON):",
+
+    "PRESS_S_TO_START": "-> Naciśnij 's', aby rozpocząć program.",
+    "PRESS_P_TO_PAUSE": "-> Naciśnij 'p', aby wstrzymać program.",
+
+    "PROGRAM_PAUSED": "(?) Wstrzymano. Aby wznowić, naciśnij 'p'",
+    "PROGRAM_RESUMED": "(>) Wznawiam. Aby wstrzymać, naciśnij 'p'",
+
+    "CLICKER_INITIALIZED": "-> Klikacz zainicjowany.",
+    "FOUND_WINDOW": "Znaleziono okno blum -> {window}",
+
+    "WINDOW_CLOSED": "Okno mogło zostać zamknięte. Błąd okna: {error}.",
+    "WINDOW_NOT_FOUND": "Nie znaleziono okna Blum! Proszę otworzyć je i ponownie uruchomić program."
+}
