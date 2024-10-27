@@ -1,4 +1,6 @@
 {
     "LANGUAGE": "en",
-    "COLLECT_DOGS": true
+    "COLLECT_DOGS": "false",
+    "REPLAYS": 50,
+    "REPLAY_DELAY": 3
 }

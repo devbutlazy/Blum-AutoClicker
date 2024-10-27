@@ -3,10 +3,8 @@ import argparse
 import asyncio
 
 from core.clicker.blum import BlumClicker
-from core.config.config import set_language, set_dogs
+from core.config.config import set_config
 from core.localization.localization import get_language
-from core.logger.logger import logger
-
 
 AUTOCLICKER_TEXT = """
 
@@ -50,12 +48,30 @@ if __name__ == "__main__":
         type=str,
         help="Set the value for collecting p (e.g., --dogs true/false)",
     )
+    parser.add_argument(
+        "--replays",
+        "--max-replays",
+        "--tickets",
+        type=int,
+        help="Set the maximum number of replays (e.g., --replays 50)",
+    )
+    parser.add_argument(
+        "--delay",
+        "--replay-delay",
+        type=int,
+        help="Set the delay between replays in seconds (e.g., --delay 5)",
+    )
     args = parser.parse_args()
 
-    if args.lang:
-        set_language(args.lang)
-    elif args.dogs:
-        set_dogs(True if args.dogs.lower() == "true" else False)
+    config_mapping = {
+        "lang": ("LANGUAGE", args.lang),
+        "dogs": ("COLLECT_DOGS", args.dogs),
+        "replays": ("REPLAYS", args.replays),
+        "delay": ("REPLAY_DELAY", args.delay),
+    }
+
+    for arg, (config_key, config_value) in config_mapping.items():
+        set_config(config_key, config_value) if config_value else None
 
     try:
         asyncio.run(main())

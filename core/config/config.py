@@ -3,7 +3,7 @@ import os
 
 from core.logger.logger import logger
 
-from typing import Dict
+from typing import Dict, Any
 from enum import Enum
 
 CONFIG_PATH = "core/config/config.json"
@@ -20,10 +20,10 @@ class Language(Enum):
     PL = "pl"
     POL = "pl"  # Alias for PL
 
-    HU = "hu" # Alias for HU
+    HU = "hu"  # Alias for HU
     HUN = "hu"
 
-    FA = "fa" # Alias for FA
+    FA = "fa"  # Alias for FA
     PR = "fa"
 
     @classmethod
@@ -48,20 +48,22 @@ class Language(Enum):
         return member.value
 
 
-def set_language(language: str) -> None:
+def set_config(key: str, value: Any) -> None:
     """
-    Set the language for the program.
+    Set a specific configuration key to a given value.
 
-    :param: language (str): The language to set.
+    :param key: The configuration key to update.
+    :param value: The new value to set for the specified key.
     :return: None
     """
     try:
         with open(CONFIG_PATH, "r", encoding="utf-8") as f:
-            config: Dict = ujson.load(f)
+            config: Dict[str, Any] = ujson.load(f)
 
-        normalized_language = Language.normalize(language)
+        if key == "LANGUAGE":
+            value = Language.normalize(value)
 
-        config["LANGUAGE"] = normalized_language
+        config[key] = value
 
         with open(CONFIG_PATH, "w", encoding="utf-8") as f:
             ujson.dump(config, f, indent=4)
@@ -72,27 +74,6 @@ def set_language(language: str) -> None:
 
     except Exception as e:
         logger.error(f"An error occurred while updating the config: {e}")
-        os._exit(1)
-
-
-def set_dogs(value: bool) -> None:
-    """
-    Set the value for collecting dogs.
-
-    :param: value (bool): The value to set.
-    :return: None
-    """
-    try:
-        with open(CONFIG_PATH, "r", encoding="utf-8") as f:
-            config: Dict = ujson.load(f)
-
-        config["COLLECT_DOGS"] = value
-
-        with open(CONFIG_PATH, "w", encoding="utf-8") as f:
-            ujson.dump(config, f, indent=4)
-
-    except (FileNotFoundError, ujson.JSONDecodeError) as e:
-        logger.error(f"Error with config file: {e}")
         os._exit(1)
 
 

@@ -12,5 +12,6 @@
     "FOUND_WINDOW": "Znaleziono okno blum -> {window}",
 
     "WINDOW_CLOSED": "Okno mogło zostać zamknięte. Błąd okna: {error}.",
-    "WINDOW_NOT_FOUND": "Nie znaleziono okna Blum! Proszę otworzyć je i ponownie uruchomić program."
+    "WINDOW_NOT_FOUND": "Nie znaleziono okna Blum! Proszę otworzyć je i ponownie uruchomić program.",
+    "REPLAY_LIMIT_REACHED": "Osiągnąłeś maksymalną liczbę powtórzeń: {replays}, program teraz zakończy działanie."
 }

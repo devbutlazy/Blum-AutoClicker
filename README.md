@@ -19,7 +19,7 @@
 2. Human clicks emulation by miss-clicking sometimes;
 3. Localization to different languages;
 4. Dogs points collection;
-5. Aiogram, 64Gram, Nekogram, Telegram support;
+5. Ayugram, 64Gram, Nekogram, Telegram Desktop support;
 
 
 ## 📕 Installation
@@ -50,7 +50,6 @@ Clone this [**Repository**](https://github.com/devbutlazy/Blum-AutoClicker) and 
 
 - [x] Localization to different languages. You can find the list of avaliable langs **[here](https://github.com/devbutlazy/Blum-AutoClicker/tree/v2-dev/core/localization/langs)**.
 ```shell
-
 # GNU/Linux
 ~/Blum-AutoClicker >>> python3 main.py --setlang lang # Instead of lang type the shorten available languag
 ~/Blum-AutoClicker >>> python3 main.py --setlang ua # Example
@@ -63,7 +62,6 @@ Clone this [**Repository**](https://github.com/devbutlazy/Blum-AutoClicker) and 
 
 - [x] Dogs collection. You can decide the program behaviour towards dogs collection (true or false)
 ```shell
-
 # GNU/Linux
 ~/Blum-AutoClicker >>> python3 main.py --dogs true/false # Decide if you want the programm to collect the dogs or not (true - yes, false - no)
 
@@ -72,8 +70,31 @@ Clone this [**Repository**](https://github.com/devbutlazy/Blum-AutoClicker) and 
 ~/Blum-AutoClicker >>> python main.py --dogs true/false # Decide if you want the programm to collect the dogs or not (true - yes, false - no)
 ```
 
+- [x] Replays count configuration. You can set the amount of tickets to be used
+```shell
+# GNU/Linux
+~/Blum-AutoClicker >>> python3 main.py --replays count # Set the amount of replays
+~/Blum-AutoClicker >>> python3 main.py --replays 50 # Example
+
+# Windows
+~/Blum-AutoClicker >>> python main.py --replays count # Set the amount of replays
+~/Blum-AutoClicker >>> python main.py --replays 50 # Example
+```
+
+- [x] Replay delay configuration
+```shell
+# GNU/Linux
+~/Blum-AutoClicker >>> python3 main.py --delay delay_in_seconds # Set the delay between replays
+~/Blum-AutoClicker >>> python3 main.py --delay 5 # Example
+
+# Windows
+~/Blum-AutoClicker >>> python main.py --delay 5 # Set the delay between replays
+~/Blum-AutoClicker >>> python main.py --delay 5 # Example
+```
+
 > [!IMPORTANT]
-> All of the settings arguments (language or dogs) should be typed in English.
+> You can edit this config setting manually in `core/config/config.json` file.
+
 
 <br>
 
@@ -85,6 +106,14 @@ If you have any ideas or suggestions to make, feel free to [open an issue](https
 
 <br>
 
+# 🤝 Special Thanks
+Without this people the developing proccess wouldn't happen so fast (or at all), so I must menion them.
+- [Nixxoq](https://github.com/nixxoq) - mental support (always helped when I asked)
+- [qt333](https://github.com/qt333) - helped with dogs and replay button recognition
+- [BRamil](https://github.com/BRamil1) - is responsible for Polish localization
+- [Redish](https://github.com/xxmmcxx) - is responsible for Farsi localization
+
+<br>
 
 ## ☕ Buy me a coffee 
     USDT (ERC-20): 0x5F06C1c23aF7Cc644B8cBaF0e2b294CbA15CC745

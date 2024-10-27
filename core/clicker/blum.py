@@ -1,4 +1,7 @@
+import os
 import asyncio
+import time
+import random
 from itertools import product
 
 import keyboard
@@ -16,9 +19,10 @@ from typing import Tuple, Any
 class BlumClicker:
     def __init__(self):
         self.utils = Utilities()
-        
+
         self.paused: bool = True
         self.window_options: str | None = None
+        self.replays: int = 0
 
     async def handle_input(self) -> bool:
         """
@@ -52,16 +56,17 @@ class BlumClicker:
         :return: whether the image was found
         """
         width, height = screen.size
-        avoid_color = (196, 247, 94)
 
-        for x, y in product(range(0, width, 20), range(0, height, 20)):
+        # 589
+
+        for x, y in product(range(0, width, 20), range(0, int(height * 0.8272), 20)):
             r, g, b = screen.getpixel((x, y))
             greenish_range = (b < 125) and (102 <= r < 220) and (200 <= g < 255)
 
-            if (r, g, b) == avoid_color:
-                continue
-
             if greenish_range:
+                # if (r, g, b) == (196, 248, 92):
+                #     return False
+
                 screen_x = rect[0] + x
                 screen_y = rect[1] + y
                 mouse.move(screen_x, screen_y, absolute=True)
@@ -106,7 +111,9 @@ class BlumClicker:
         """
 
         width, height = screen.size
-        start_y = int(height * 0.1885) # remove Y area from clicks on white pixels (counts)
+        start_y = int(
+            height * 0.1885
+        )  # remove Y area from clicks on white pixels (counts)
 
         for x, y in product(range(0, width, 20), range(start_y, height, 20)):
             r, g, b = screen.getpixel((x, y))
@@ -121,9 +128,7 @@ class BlumClicker:
 
         return False
 
-    @staticmethod
-    def click_on_play_button(screen: Any, rect: Tuple[int, int, int, int]
-    ) -> bool:
+    def detect_replay(self, screen: Any, rect: Tuple[int, int, int, int]) -> bool:
         """
         Click on the 'Play (nn left)' button.
 
@@ -132,21 +137,42 @@ class BlumClicker:
         :return: whether the image was found
         """
 
-        width, height = screen.size
-        x, y = int(width * 0.3075), int(height * 0.87)   # (123, 609) button position 
+        max_replays = get_config_value("REPLAYS")
+        replay_delay = get_config_value("REPLAY_DELAY")
 
-        screen_x = rect[0] + x
-        screen_y = rect[1] + y
-        (r,g,b) =  pyautogui.pixel(screen_x, screen_y)
+        screen_x = rect[0] + int(screen.size[0] * 0.4626865671641791)
+        screen_y = rect[1] + int(screen.size[1] * 0.8679775280898876)
 
-        if (r,g,b) == (255,255,255): 
-            mouse.move(screen_x, screen_y, absolute=True)
-            mouse.click(button=mouse.LEFT)
+        color = pyautogui.pixel(screen_x, screen_y)
 
-            return True
-        
-        return False
-    
+        color_within_range = all(
+            min_c <= col <= max_c
+            for col, min_c, max_c in zip(color, (145, 70, 76), (255, 135, 145))
+        )
+
+        if not color_within_range:
+            return False
+
+        if self.replays >= max_replays:
+            logger.error(
+                get_language("REPLAY_LIMIT_REACHED").format(replays=max_replays)
+            )
+            os._exit(0)
+
+        logger.debug(
+            f"Detected the replay button. Remaining replays: {max_replays - self.replays}"
+        )
+        time.sleep(random.randint(replay_delay, replay_delay + 3) + random.random())
+
+        mouse.move(
+            screen_x + random.randint(1, 10),
+            screen_y + random.randint(1, 10),
+            absolute=True,
+        )
+        mouse.click(button=mouse.LEFT)
+
+        self.replays += 1
+        return True
 
     async def run(self) -> None:
         """
@@ -172,10 +198,10 @@ class BlumClicker:
                 self.collect_green(screenshot, rect)
                 self.collect_freeze(screenshot, rect)
 
+                self.detect_replay(screenshot, rect)
+
                 if get_config_value("COLLECT_DOGS"):
                     self.collect_dog(screenshot, rect)
-
-                self.click_on_play_button(screenshot, rect)
 
         except (Exception, ExceptionGroup) as error:
             logger.error(get_language("WINDOW_CLOSED").format(error=error))

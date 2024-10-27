@@ -12,5 +12,6 @@
     "FOUND_WINDOW": "Found blum window -> {window}",
 
     "WINDOW_CLOSED": "The window might have been closed. Window error: {error}.",
-    "WINDOW_NOT_FOUND": "Blum window not found! Please open it, and restart the program."
+    "WINDOW_NOT_FOUND": "Blum window not found! Please open it, and restart the program.",
+    "REPLAY_LIMIT_REACHED": "You have reached the set amount of replays: {replays}, the program will now exit."
 }
