@@ -184,7 +184,7 @@ class BlumClicker:
                 return logger.error(get_language("WINDOW_NOT_FOUND"))
 
             logger.info(get_language("CLICKER_INITIALIZED"))
-            logger.info(get_language("p").format(window=window.title))
+            logger.info(get_language("FOUND_WINDOW").format(window=window.title))
             logger.info(get_language("PRESS_S_TO_START"))
 
             while True:
