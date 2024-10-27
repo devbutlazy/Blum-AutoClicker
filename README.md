@@ -73,7 +73,7 @@ Clone this [**Repository**](https://github.com/devbutlazy/Blum-AutoClicker) and 
 ```
 
 > [!IMPORTANT]
-> The dogs collection requires better PC, as it uses OpenCV techniques, so if it works bad for you, just disable it. In addition, all of the settings arguments (language or dogs) should be typed in English.
+> All of the settings arguments (language or dogs) should be typed in English.
 
 <br>
 

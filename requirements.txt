@@ -5,6 +5,5 @@ ujson
 pyscreeze
 keyboard
 loguru
-opencv-python
 pillow
 numpy
