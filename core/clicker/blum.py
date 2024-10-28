@@ -137,17 +137,12 @@ class BlumClicker:
         max_replays = get_config_value("REPLAYS")
         replay_delay = get_config_value("REPLAY_DELAY")
 
-        screen_x = rect[0] + int(screen.size[0] * 0.4577114427860697)
+        screen_x = rect[0] + int(screen.size[0] * 0.4875621890547264)
         screen_y = rect[1] + int(screen.size[1] * 0.8539325842696629)
 
         color = pyautogui.pixel(screen_x, screen_y)
 
-        color_within_range = all(
-            min_c <= col <= max_c
-            for col, min_c, max_c in zip(color, (145, 70, 76), (255, 135, 145))
-        )
-
-        if not color_within_range:
+        if not color == (255, 255, 255):
             return False
 
         if self.replays >= max_replays:
@@ -167,6 +162,8 @@ class BlumClicker:
             absolute=True,
         )
         mouse.click(button=mouse.LEFT)
+
+        time.sleep(0.5)
 
         self.replays += 1
         return True
