@@ -128,6 +128,31 @@ class BlumClicker:
 
         return False
 
+    @staticmethod
+    def collect_pumpkin(screen: Any, rect: Tuple[int, int, int, int]) -> bool:
+        """
+        Click on the found point.
+
+        :param screen: the screenshot
+        :param rect: the rectangle
+        :return: whether the image was found
+        """
+        width, height = screen.size
+
+        for x, y in product(range(0, width, 20), range(0, height, 20)):
+            r, g, b = screen.getpixel((x, y))
+            pamkin_range = (35 < b < 63) and (220 <= r < 233) and (114 <= g < 128)
+
+            if pamkin_range:
+                screen_x = rect[0] + x
+                screen_y = rect[1] + y
+                mouse.move(screen_x, screen_y, absolute=True)
+                mouse.click(button=mouse.LEFT)
+
+                return True
+
+        return False
+
     def detect_replay(self, screen: Any, rect: Tuple[int, int, int, int]) -> bool:
         """
         Click on the 'Play (nn left)' button.
@@ -140,8 +165,8 @@ class BlumClicker:
         max_replays = get_config_value("REPLAYS")
         replay_delay = get_config_value("REPLAY_DELAY")
 
-        screen_x = rect[0] + int(screen.size[0] * 0.4626865671641791)
-        screen_y = rect[1] + int(screen.size[1] * 0.8679775280898876)
+        screen_x = rect[0] + int(screen.size[0] * 0.4577114427860697)
+        screen_y = rect[1] + int(screen.size[1] * 0.8539325842696629)
 
         color = pyautogui.pixel(screen_x, screen_y)
 
@@ -150,7 +175,10 @@ class BlumClicker:
             for col, min_c, max_c in zip(color, (145, 70, 76), (255, 135, 145))
         )
 
+        # 184/402, 608/712
+
         if not color_within_range:
+            logger.info("No replay button found")
             return False
 
         if self.replays >= max_replays:
@@ -197,6 +225,7 @@ class BlumClicker:
 
                 self.collect_green(screenshot, rect)
                 self.collect_freeze(screenshot, rect)
+                self.collect_pumpkin(screenshot, rect)
 
                 self.detect_replay(screenshot, rect)
 
