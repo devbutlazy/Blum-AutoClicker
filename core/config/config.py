@@ -63,9 +63,6 @@ def set_config(key: str, value: Any) -> None:
         if key == "LANGUAGE":
             value = Language.normalize(value)
 
-        elif key == "COLLECT_DOGS":
-            value = True if value.lower() == "true" else False
-
         config[key] = value
 
         with open(CONFIG_PATH, "w", encoding="utf-8") as f:

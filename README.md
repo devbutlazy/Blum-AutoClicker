@@ -18,8 +18,7 @@
 1. Better and faster detection of points;
 2. Human clicks emulation by miss-clicking sometimes;
 3. Localization to different languages;
-4. Dogs points collection;
-5. Ayugram, 64Gram, Nekogram, Telegram Desktop support;
+4. Ayugram, 64Gram, Nekogram, Telegram Desktop support;
 
 
 ## 📕 Installation
@@ -58,16 +57,6 @@ Clone this [**Repository**](https://github.com/devbutlazy/Blum-AutoClicker) and 
 # Windows
 ~/Blum-AutoClicker >>> python main.py --setlang lang # Instead of lang type the shorten available languag
 ~/Blum-AutoClicker >>> python main.py --setlang ua # Example
-```
-
-- [x] Dogs collection. You can decide the program behaviour towards dogs collection (true or false)
-```shell
-# GNU/Linux
-~/Blum-AutoClicker >>> python3 main.py --dogs true/false # Decide if you want the programm to collect the dogs or not (true - yes, false - no)
-
-
-# Windows
-~/Blum-AutoClicker >>> python main.py --dogs true/false # Decide if you want the programm to collect the dogs or not (true - yes, false - no)
 ```
 
 - [x] Replays count configuration. You can set the amount of tickets to be used

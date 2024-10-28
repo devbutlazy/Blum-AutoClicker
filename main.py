@@ -43,12 +43,6 @@ if __name__ == "__main__":
         help="Set language for the programm (e.g., --lang ua)",
     )
     parser.add_argument(
-        "--dogs",
-        "--dogs-collect",
-        type=str,
-        help="Set the value for collecting p (e.g., --dogs true/false)",
-    )
-    parser.add_argument(
         "--replays",
         "--max-replays",
         "--tickets",
@@ -65,7 +59,6 @@ if __name__ == "__main__":
 
     config_mapping = {
         "lang": ("LANGUAGE", args.lang),
-        "dogs": ("COLLECT_DOGS", args.dogs),
         "replays": ("REPLAYS", args.replays),
         "delay": ("REPLAY_DELAY", args.delay),
     }

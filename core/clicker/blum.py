@@ -101,34 +101,6 @@ class BlumClicker:
         return False
 
     @staticmethod
-    def collect_dog(screen: Any, rect: Tuple[int, int, int, int]) -> bool:
-        """
-        Detepct and click on the dog's face based on its specific color.
-
-        :param screen: the screenshot in BGR format
-        :param rect: the bounding rectangle of the screen
-        :return: whether the dog was found
-        """
-
-        width, height = screen.size
-        start_y = int(
-            height * 0.1885
-        )  # remove Y area from clicks on white pixels (counts)
-
-        for x, y in product(range(0, width, 20), range(start_y, height, 20)):
-            r, g, b = screen.getpixel((x, y))
-            white_pixel = (r == 255) and (g == 255) and (b == 255)
-
-            if white_pixel:
-                screen_x = rect[0] + x
-                screen_y = rect[1] + y
-                mouse.move(screen_x, screen_y, absolute=True)
-                mouse.click(button=mouse.LEFT)
-                return True
-
-        return False
-
-    @staticmethod
     def collect_pumpkin(screen: Any, rect: Tuple[int, int, int, int]) -> bool:
         """
         Click on the found point.
@@ -175,8 +147,6 @@ class BlumClicker:
             for col, min_c, max_c in zip(color, (145, 70, 76), (255, 135, 145))
         )
 
-        # 184/402, 608/712
-
         if not color_within_range:
             return False
 
@@ -222,14 +192,11 @@ class BlumClicker:
 
                 screenshot = self.utils.capture_screenshot(rect)
 
+                self.collect_pumpkin(screenshot, rect)
                 self.collect_green(screenshot, rect)
                 self.collect_freeze(screenshot, rect)
-                self.collect_pumpkin(screenshot, rect)
-
+                
                 self.detect_replay(screenshot, rect)
-
-                if get_config_value("COLLECT_DOGS"):
-                    self.collect_dog(screenshot, rect)
 
         except (Exception, ExceptionGroup) as error:
             logger.error(get_language("WINDOW_CLOSED").format(error=error))
