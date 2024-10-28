@@ -178,7 +178,6 @@ class BlumClicker:
         # 184/402, 608/712
 
         if not color_within_range:
-            logger.info("No replay button found")
             return False
 
         if self.replays >= max_replays:
