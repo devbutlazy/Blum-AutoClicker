@@ -60,8 +60,9 @@ class BlumClicker:
         for x, y in product(range(0, width, 20), range(0, int(height * 0.8272), 20)):
             r, g, b = screen.getpixel((x, y))
             greenish_range = (b < 125) and (102 <= r < 220) and (200 <= g < 255)
-
-            if greenish_range:
+            play_button = screen.getpixel((int(width * 0.80), int(height * 0.63)))
+            
+            if greenish_range and not play_button == (255, 255, 255):
                 screen_x = rect[0] + x
                 screen_y = rect[1] + y
                 mouse.move(screen_x, screen_y, absolute=True)
