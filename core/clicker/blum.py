@@ -2,6 +2,7 @@ import os
 import asyncio
 import time
 import random
+import math
 from itertools import product
 
 import keyboard
@@ -133,15 +134,15 @@ class BlumClicker:
         """
         width, height = screen.size
 
-        x1, y1 = (int(width * 0.43781), int(height * 0.60252))  # Grey reload button
-        x2, y2 = (int(width * 0.24626), int(height * 0.429775))  # White pixel on word
+        x1, y1 = (math.ceil(width * 0.43781), math.ceil(height * 0.60252)) #grey reload button
+        x2, y2 = (math.ceil(width * 0.24626), math.ceil(height * 0.429775)) #white pixel on word 
 
         reload_button = screen.getpixel((x1, y1))
         white_pixel = screen.getpixel((x2, y2))
 
-        if reload_button == (40, 40, 40) and white_pixel == (255, 255, 255):
+        if reload_button == (40,40,40) and white_pixel == (255,255,255):
             time.sleep(0.5)
-            keyboard.press_and_release("F5")
+            keyboard.press_and_release('F5')
             return True
 
         return False
