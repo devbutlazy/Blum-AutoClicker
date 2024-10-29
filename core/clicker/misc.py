@@ -1,8 +1,13 @@
+import sys
 import pyautogui
+import subprocess
+import pkg_resources
 import pywinctl as pwc
 
 from typing import Tuple, Any
 from dataclasses import dataclass
+
+from core.logger.logger import logger
 
 
 @dataclass
@@ -51,3 +56,42 @@ class Utilities:
             return windows[0]
 
         return None
+
+    @staticmethod
+    def install_dependencies() -> None:
+        with open("requirements.txt") as f:
+            requirements = f.read().splitlines()
+
+        installed_packages = {pkg.key: pkg.version for pkg in pkg_resources.working_set}
+
+        for requirement in requirements:
+            if not requirement or requirement.startswith("#"):
+                continue
+
+            package_name = requirement.split("==")[0]  
+            try:
+                required_version = requirement.split("==")[
+                    1
+                ]  
+            except IndexError:
+                required_version = None
+
+            if package_name not in installed_packages:
+                logger.info(f"Installing {requirement}, status: not installed")
+                subprocess.check_call(
+                    [sys.executable, "-m", "pip", "install", requirement]
+                )
+            elif (
+                required_version
+                and installed_packages[package_name] != required_version
+            ):
+                logger.info(
+                    f"Installing {requirement}, status: outdated (installed: {installed_packages[package_name]})"
+                )
+                subprocess.check_call(
+                    [sys.executable, "-m", "pip", "install", requirement]
+                )
+            else:
+                logger.info(
+                    f"{package_name} is up to date (version: {installed_packages[package_name]})"
+                )

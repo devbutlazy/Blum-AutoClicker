@@ -30,12 +30,12 @@ class BlumClicker:
 
         :return: whether the input was handled
         """
-        if keyboard.is_pressed("s") and self.paused:
+        if keyboard.is_pressed(get_config_value("START_HOTKEY")) and self.paused:
             self.paused = False
             logger.info(get_language("PRESS_P_TO_PAUSE"))
             await asyncio.sleep(0.2)
 
-        elif keyboard.is_pressed("p"):
+        elif keyboard.is_pressed(get_config_value("TOGGLE_HOTKEY")):
             self.paused = not self.paused
             logger.info(
                 get_language("PROGRAM_PAUSED")
@@ -57,16 +57,11 @@ class BlumClicker:
         """
         width, height = screen.size
 
-        # 589
-
         for x, y in product(range(0, width, 20), range(0, int(height * 0.8272), 20)):
             r, g, b = screen.getpixel((x, y))
             greenish_range = (b < 125) and (102 <= r < 220) and (200 <= g < 255)
 
             if greenish_range:
-                # if (r, g, b) == (196, 248, 92):
-                #     return False
-
                 screen_x = rect[0] + x
                 screen_y = rect[1] + y
                 mouse.move(screen_x, screen_y, absolute=True)
@@ -115,13 +110,38 @@ class BlumClicker:
             r, g, b = screen.getpixel((x, y))
             pamkin_range = (35 < b < 63) and (220 <= r < 233) and (114 <= g < 128)
 
-            if pamkin_range:
+            play_button = screen.getpixel((int(width * 0.80), int(height * 0.63)))
+
+            if pamkin_range and not play_button == (255, 255, 255):
                 screen_x = rect[0] + x
                 screen_y = rect[1] + y
                 mouse.move(screen_x, screen_y, absolute=True)
                 mouse.click(button=mouse.LEFT)
 
                 return True
+
+        return False
+
+    @staticmethod
+    def detect_reload_screen(screen: Any) -> bool:
+        """
+        Reload app.
+
+        :param screen: the screenshot
+        :return: whether the reload screen found
+        """
+        width, height = screen.size
+
+        x1, y1 = (int(width * 0.43781), int(height * 0.60252))  # Grey reload button
+        x2, y2 = (int(width * 0.24626), int(height * 0.429775))  # White pixel on word
+
+        reload_button = screen.getpixel((x1, y1))
+        white_pixel = screen.getpixel((x2, y2))
+
+        if reload_button == (40, 40, 40) and white_pixel == (255, 255, 255):
+            time.sleep(0.5)
+            keyboard.press_and_release("F5")
+            return True
 
         return False
 
@@ -192,8 +212,9 @@ class BlumClicker:
                 self.collect_pumpkin(screenshot, rect)
                 self.collect_green(screenshot, rect)
                 self.collect_freeze(screenshot, rect)
-                
+
                 self.detect_replay(screenshot, rect)
+                self.detect_reload_screen(screenshot)
 
         except (Exception, ExceptionGroup) as error:
             logger.error(get_language("WINDOW_CLOSED").format(error=error))

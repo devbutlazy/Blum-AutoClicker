@@ -1,5 +1,7 @@
 {
     "LANGUAGE": "en",
     "REPLAYS": 50,
-    "REPLAY_DELAY": 3
+    "REPLAY_DELAY": 3,
+    "TOGGLE_HOTKEY": "p",
+    "START_HOTKEY": "s"
 }
