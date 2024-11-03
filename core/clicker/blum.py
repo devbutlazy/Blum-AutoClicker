@@ -110,11 +110,11 @@ class BlumClicker:
 
         for x, y in product(range(0, width, 20), range(0, height, 20)):
             r, g, b = screen.getpixel((x, y))
-            pamkin_range = (35 < b < 63) and (220 <= r < 233) and (114 <= g < 128)
+            pumpkin_range = (35 < b < 75) and (200 <= r < 245) and (114 <= g < 140)
 
             play_button = screen.getpixel((int(width * 0.80), int(height * 0.63)))
 
-            if pamkin_range and not play_button == (255, 255, 255):
+            if pumpkin_range and not play_button == (255, 255, 255):
                 screen_x = rect[0] + x
                 screen_y = rect[1] + y
                 mouse.move(screen_x, screen_y, absolute=True)
@@ -134,8 +134,8 @@ class BlumClicker:
         """
         width, height = screen.size
 
-        x1, y1 = (math.ceil(width * 0.43781), math.ceil(height * 0.60252)) #grey reload button
-        x2, y2 = (math.ceil(width * 0.24626), math.ceil(height * 0.429775)) #white pixel on word 
+        x1, y1 = (math.ceil(width * 0.43781), math.ceil(height * 0.60252)) # grey reload button
+        x2, y2 = (math.ceil(width * 0.24626), math.ceil(height * 0.429775)) # white pixel on word 
 
         reload_button = screen.getpixel((x1, y1))
         white_pixel = screen.getpixel((x2, y2))
@@ -185,7 +185,7 @@ class BlumClicker:
         )
         mouse.click(button=mouse.LEFT)
 
-        time.sleep(0.5)
+        time.sleep(1)
 
         self.replays += 1
         return True

@@ -3,16 +3,16 @@ from pathlib import Path
 
 from core.logger.logger import logger
 
-from typing import Dict
+from typing import Dict, Union
 
 
-def load_json_file(file_path: str) -> Dict:
+def load_json_file(file_path: Union[str, Path]) -> Dict:
     """
     Load a JSON file and return its contents as a dictionary.
 
-    :param: file_path (str): The path to the JSON file.
+    :param file_path: The path to the JSON file.
 
-    :return: Dict: Parsed JSON content, or an empty dictionary if an error occurs.
+    :return: Parsed JSON content, or an empty dictionary if an error occurs.
     """
     try:
         with open(file_path, "r", encoding="utf-8") as file:
@@ -48,13 +48,15 @@ def get_language(key: str) -> str:
 
     :param key: The key to look up in the language file.
 
-    :return: str: The localized string or an error message if key not found.
+    :return: The localized string or an error message if the key is not found.
     """
-    lang: str = (
-        get_config_value("LANGUAGE") or "en"
-    )  # Fallback to 'en' if LANGUAGE not found
+    lang: str = get_config_value("LANGUAGE") or "en"  # Fallback to 'en' if LANGUAGE not found
     file_path: Path = Path(f"core/localization/langs/{lang}.json")
 
-    data: Dict = load_json_file(file_path) or load_json_file(f"core/localization/langs/en.json")
+    data: Dict = load_json_file(file_path) or load_json_file("core/localization/langs/en.json")
 
-    return data.get(key, f"Localization error: '{key}' not found.")
+    return ujson.dumps(
+        data.get(key, f"Localization error: '{key}' not found."), 
+        ensure_ascii=False, 
+        indent=4
+    ) if lang == "fa" else data.get(key, f"Localization error: '{key}' not found.")
