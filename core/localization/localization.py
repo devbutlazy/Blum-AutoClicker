@@ -1,4 +1,4 @@
-import ujson
+import json
 from pathlib import Path
 
 from core.logger.logger import logger
@@ -16,12 +16,12 @@ def load_json_file(file_path: Union[str, Path]) -> Dict:
     """
     try:
         with open(file_path, "r", encoding="utf-8") as file:
-            return ujson.load(file)
+            return json.load(file)
 
     except FileNotFoundError:
         logger.error(f"File not found: {file_path}")
 
-    except ujson.JSONDecodeError:
+    except json.JSONDecodeError:
         logger.error(f"Failed to decode JSON in file: {file_path}")
 
     return {}
@@ -55,8 +55,4 @@ def get_language(key: str) -> str:
 
     data: Dict = load_json_file(file_path) or load_json_file("core/localization/langs/en.json")
 
-    return ujson.dumps(
-        data.get(key, f"Localization error: '{key}' not found."), 
-        ensure_ascii=False, 
-        indent=4
-    ) if lang == "fa" else data.get(key, f"Localization error: '{key}' not found.")
+    return data.get(key, f"Localization error: '{key}' not found.")

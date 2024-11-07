@@ -13,6 +13,9 @@
 </p>
 </div>
 
+## ☕ Donation method
+    USDT (ERC-20): 0x5F06C1c23aF7Cc644B8cBaF0e2b294CbA15CC745
+    TON: UQD2g_C_aIeZ7-zAJ7uOQJUsr538vPcd_GljLeA-iRZL7tzF
 
 ## ⚡ v2 Features
 1. Better and faster detection of points;
@@ -31,14 +34,12 @@ Clone this [**Repository**](https://github.com/devbutlazy/Blum-AutoClicker) and 
 # GNU/Linux
 ~/Blum-AutoClicker >>> python3 -m venv venv # Create a virtual environment
 ~/Blum-AutoClicker >>> source venv/bin/activate # Activate the venv
-~/Blum-AutoClicker >>> pip install -r requirements.txt # Install dependencies
-~/Blum-AutoClicker >>> python3 main.py # Run the soft
+~/Blum-AutoClicker >>> python3 main.py --idp # Run the soft and install dependencies
 
 # Windows
 ~/Blum-AutoClicker >>> python -m venv venv # Create a virtual environment
 ~/Blum-AutoClicker >>> venv\Scripts\activate # Activate the venv
-~/Blum-AutoClicker >>> pip install -r requirements.txt # Install dependencies
-~/Blum-AutoClicker >>> python main.py # Run the soft
+~/Blum-AutoClicker >>> python main.py --idp # Run the soft and install dependencies
 ```
 
 > [!TIP]
@@ -101,12 +102,9 @@ Without this people the developing proccess wouldn't happen so fast (or at all),
 - [qt333](https://github.com/qt333) - helped with dogs and replay button recognition
 - [BRamil](https://github.com/BRamil1) - is responsible for Polish localization
 - [Redish](https://github.com/xxmmcxx) - is responsible for Farsi localization
+- [vjaykrsna](https://github.com/vjaykrsna) - helped with fixing the collecting only on left side issue
 
 <br>
-
-## ☕ Buy me a coffee 
-    USDT (ERC-20): 0x5F06C1c23aF7Cc644B8cBaF0e2b294CbA15CC745
-    TON: UQBTHDZJnuDr4-v6oc_cDRXYdqggIoQA_tLGv5z2li4DC7GI
 
 
 > [!NOTE]

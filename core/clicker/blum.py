@@ -14,7 +14,7 @@ from core.logger.logger import logger
 from core.localization.localization import get_language
 from core.config.config import get_config_value
 
-from typing import Tuple, Any
+from typing import Tuple, List, Any
 
 
 class BlumClicker:
@@ -48,27 +48,35 @@ class BlumClicker:
         return self.paused
 
     @staticmethod
-    def collect_green(screen: Any, rect: Tuple[int, int, int, int]) -> bool:
+    def collect_green(screen: Any, rect: Tuple[int, int, int, int], sides: List[str] = ["left", "right"]) -> bool:
         """
-        Click on the found point.
+        Click on the found green button.
 
         :param screen: the screenshot
         :param rect: the rectangle
+        :param sides: the sides to scan
         :return: whether the image was found
         """
         width, height = screen.size
+        scan_height = int(height * 0.8272)
 
-        for x, y in product(range(0, width, 20), range(0, int(height * 0.8272), 20)):
+        play_button_check = screen.getpixel((int(width * 0.80), int(height * 0.63))) == (255, 255, 255)
+        
+        x_ranges = {
+            "left": range(0, width // 2, 20),
+            "right": range(width // 2, width, 20)
+        }
+        
+        x_values = (x for side in sides if side in x_ranges for x in x_ranges[side])
+        
+        for x, y in product(x_values, range(0, scan_height, 20)):
             r, g, b = screen.getpixel((x, y))
-            greenish_range = (b < 125) and (102 <= r < 220) and (200 <= g < 255)
-            play_button = screen.getpixel((int(width * 0.80), int(height * 0.63)))
-            
-            if greenish_range and not play_button == (255, 255, 255):
-                screen_x = rect[0] + x
-                screen_y = rect[1] + y
+
+            if (b < 125) and (102 <= r < 220) and (200 <= g < 255) and not play_button_check:
+                screen_x, screen_y = rect[0] + x, rect[1] + y
                 mouse.move(screen_x, screen_y, absolute=True)
                 mouse.click(button=mouse.LEFT)
-
+                
                 return True
 
         return False
@@ -84,7 +92,7 @@ class BlumClicker:
         """
         width, height = screen.size
 
-        for x, y in product(range(0, width, 20), range(0, height, 20)):
+        for x, y in product(range(0, width, 10), range(0, height, 10)):
             r, g, b = screen.getpixel((x, y))
             blueish_range = (215 < b < 255) and (100 <= r < 166) and (220 <= g < 254)
 
@@ -93,33 +101,6 @@ class BlumClicker:
                 screen_y = rect[1] + y
                 mouse.move(screen_x, screen_y, absolute=True)
                 mouse.click(button=mouse.LEFT)
-                return True
-
-        return False
-
-    @staticmethod
-    def collect_pumpkin(screen: Any, rect: Tuple[int, int, int, int]) -> bool:
-        """
-        Click on the found point.
-
-        :param screen: the screenshot
-        :param rect: the rectangle
-        :return: whether the image was found
-        """
-        width, height = screen.size
-
-        for x, y in product(range(0, width, 20), range(0, height, 20)):
-            r, g, b = screen.getpixel((x, y))
-            pumpkin_range = (35 < b < 75) and (200 <= r < 245) and (114 <= g < 140)
-
-            play_button = screen.getpixel((int(width * 0.80), int(height * 0.63)))
-
-            if pumpkin_range and not play_button == (255, 255, 255):
-                screen_x = rect[0] + x
-                screen_y = rect[1] + y
-                mouse.move(screen_x, screen_y, absolute=True)
-                mouse.click(button=mouse.LEFT)
-
                 return True
 
         return False
@@ -134,8 +115,8 @@ class BlumClicker:
         """
         width, height = screen.size
 
-        x1, y1 = (math.ceil(width * 0.43781), math.ceil(height * 0.60252)) # grey reload button
-        x2, y2 = (math.ceil(width * 0.24626), math.ceil(height * 0.429775)) # white pixel on word 
+        x1, y1 = (math.ceil(width * 0.43781), math.ceil(height * 0.60252)) 
+        x2, y2 = (math.ceil(width * 0.24626), math.ceil(height * 0.429775)) 
 
         reload_button = screen.getpixel((x1, y1))
         white_pixel = screen.getpixel((x2, y2))
@@ -162,21 +143,19 @@ class BlumClicker:
         screen_x = rect[0] + int(screen.size[0] * 0.3075)
         screen_y = rect[1] + int(screen.size[1] * 0.87)
 
-        color = pyautogui.pixel(screen_x, screen_y)
-
-        if not color == (255, 255, 255):
+        if not pyautogui.pixel(screen_x, screen_y) == (255, 255, 255):
             return False
 
         if self.replays >= max_replays:
-            logger.error(
+            return logger.error(
                 get_language("REPLAY_LIMIT_REACHED").format(replays=max_replays)
             )
-            os._exit(0)
 
+        delay = random.randint(replay_delay, replay_delay + 3) + random.random()
         logger.debug(
-            f"Detected the replay button. Remaining replays: {max_replays - self.replays}"
+            f"Detected the replay button. Remaining replays: {max_replays - self.replays} // Delay: {delay:.2f}"
         )
-        time.sleep(random.randint(replay_delay, replay_delay + 3) + random.random())
+        time.sleep(delay)
 
         mouse.move(
             screen_x + random.randint(1, 10),
@@ -186,8 +165,8 @@ class BlumClicker:
         mouse.click(button=mouse.LEFT)
 
         time.sleep(1)
-
         self.replays += 1
+
         return True
 
     async def run(self) -> None:
@@ -211,7 +190,6 @@ class BlumClicker:
 
                 screenshot = self.utils.capture_screenshot(rect)
 
-                self.collect_pumpkin(screenshot, rect)
                 self.collect_green(screenshot, rect)
                 self.collect_freeze(screenshot, rect)
 

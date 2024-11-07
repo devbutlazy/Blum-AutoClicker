@@ -1,4 +1,4 @@
-import ujson
+import json
 import os
 
 from core.logger.logger import logger
@@ -58,7 +58,7 @@ def set_config(key: str, value: Any) -> None:
     """
     try:
         with open(CONFIG_PATH, "r", encoding="utf-8") as f:
-            config: Dict[str, Any] = ujson.load(f)
+            config: Dict[str, Any] = json.load(f)
 
         if key == "LANGUAGE":
             value = Language.normalize(value)
@@ -66,15 +66,13 @@ def set_config(key: str, value: Any) -> None:
         config[key] = value
 
         with open(CONFIG_PATH, "w", encoding="utf-8") as f:
-            ujson.dump(config, f, indent=4)
+            json.dump(config, f, indent=4)
 
-    except (FileNotFoundError, ujson.JSONDecodeError) as e:
+    except (FileNotFoundError, json.JSONDecodeError) as e:
         logger.error(f"Error with config file: {e}")
-        os._exit(1)
 
     except Exception as e:
         logger.error(f"An error occurred while updating the config: {e}")
-        os._exit(1)
 
 
 def get_config_value(key: str) -> str:
@@ -86,14 +84,12 @@ def get_config_value(key: str) -> str:
     """
     try:
         with open(CONFIG_PATH, "r", encoding="utf-8") as f:
-            config: Dict = ujson.load(f)
+            config: Dict = json.load(f)
 
         return config.get(key, None)
 
-    except (FileNotFoundError, ujson.JSONDecodeError) as e:
+    except (FileNotFoundError, json.JSONDecodeError) as e:
         logger.error(f"Error with config file: {e}")
-        os._exit(1)
 
     except Exception as e:
         logger.error(f"An error occurred while getting the config value: {e}")
-        os._exit(1)

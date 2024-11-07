@@ -4,7 +4,6 @@ import pywinctl as pwc
 from typing import Tuple, Any
 from dataclasses import dataclass
 
-
 @dataclass
 class Utilities:
 
@@ -16,7 +15,7 @@ class Utilities:
         :param window: The window object
         :return: A tuple containing the coordinates (left, top, width, height)
         """
-        return window.left, window.top, window.width, window.height
+        return (window.left, window.top, window.width, window.height)
 
     @staticmethod
     def capture_screenshot(rect: Tuple[int, int, int, int]) -> Any:
@@ -38,17 +37,18 @@ class Utilities:
         windows = next(
             (
                 pwc.getWindowsWithTitle(opt)
-                for opt in ["TelegramDesktop", "64Gram", "Nekogram", "AyuGram"]
+                for opt in ["TelegramDesktop", "64Gram", "AyuGram", "telegram-desktop"]
                 if pwc.getWindowsWithTitle(opt)
             ),
             None,
         )
 
-        if windows and not windows[0].isActive:
-            windows[0].minimize()
-            windows[0].restore()
+        window = windows[0] if windows else None
 
-            return windows[0]
+        if window and not window.isActive:
+            window.minimize()
+            window.restore()
+
+            return window
 
         return None
-
