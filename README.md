@@ -34,12 +34,14 @@ Clone this [**Repository**](https://github.com/devbutlazy/Blum-AutoClicker) and 
 # GNU/Linux
 ~/Blum-AutoClicker >>> python3 -m venv venv # Create a virtual environment
 ~/Blum-AutoClicker >>> source venv/bin/activate # Activate the venv
-~/Blum-AutoClicker >>> python3 main.py --idp # Run the soft and install dependencies
+~/Blum-AutoClicker >>> pip install -r requirements.txt # Install the required dependencies
+~/Blum-AutoClicker >>> python3 main.py # Run the soft and install dependencies
 
 # Windows
 ~/Blum-AutoClicker >>> python -m venv venv # Create a virtual environment
 ~/Blum-AutoClicker >>> venv\Scripts\activate # Activate the venv
-~/Blum-AutoClicker >>> python main.py --idp # Run the soft and install dependencies
+~/Blum-AutoClicker >>> pip install -r requirements.txt # Install the required dependencies
+~/Blum-AutoClicker >>> python main.py # Run the soft and install dependencies
 ```
 
 > [!TIP]

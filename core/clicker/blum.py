@@ -1,4 +1,3 @@
-import os
 import asyncio
 import time
 import random
@@ -22,6 +21,8 @@ class BlumClicker:
         self.utils = Utilities()
 
         self.paused: bool = True
+        self.replay_limit_logged = False
+
         self.window_options: str | None = None
         self.replays: int = 0
 
@@ -106,6 +107,34 @@ class BlumClicker:
         return False
 
     @staticmethod
+    def collect_football(screen: Any, rect: Tuple[int, int, int, int]) -> bool:
+        """
+        Detepct and click on the dog's face based on its specific color.
+
+        :param screen: the screenshot in BGR format
+        :param rect: the bounding rectangle of the screen
+        :return: whether the dog was found
+        """
+
+        width, height = screen.size
+        start_y = int(
+            height * 0.1885
+        )  # remove Y area from clicks on white pixels (counts)
+
+        for x, y in product(range(0, width, 20), range(start_y, height, 20)):
+            r, g, b = screen.getpixel((x, y))
+            white_pixel = (r == 255) and (g == 255) and (b == 255)
+
+            if white_pixel:
+                screen_x = rect[0] + x
+                screen_y = rect[1] + y
+                mouse.move(screen_x, screen_y, absolute=True)
+                mouse.click(button=mouse.LEFT)
+                return True
+
+        return False
+
+    @staticmethod
     def detect_reload_screen(screen: Any) -> bool:
         """
         Reload app.
@@ -149,8 +178,8 @@ class BlumClicker:
         if self.replays >= max_replays:
             return logger.error(
                 get_language("REPLAY_LIMIT_REACHED").format(replays=max_replays)
-            )
-
+            ) if not self.replay_limit_logged else None
+            
         delay = random.randint(replay_delay, replay_delay + 3) + random.random()
         logger.debug(
             f"Detected the replay button. Remaining replays: {max_replays - self.replays} // Delay: {delay:.2f}"
@@ -192,6 +221,7 @@ class BlumClicker:
 
                 self.collect_green(screenshot, rect)
                 self.collect_freeze(screenshot, rect)
+                self.collect_football(screenshot, rect)
 
                 self.detect_replay(screenshot, rect)
                 self.detect_reload_screen(screenshot)
