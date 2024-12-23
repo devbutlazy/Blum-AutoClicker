@@ -83,6 +83,128 @@ class BlumClicker:
         return False
 
     @staticmethod
+    def collect_green(screen: Any, rect: Tuple[int, int, int, int]) -> bool:
+        """
+        Click on the found point.
+
+        :param screen: the screenshot
+        :param rect: the rectangle
+        :return: whether the image was found
+        """
+        width, height = screen.size
+        avoid_color = (196, 247, 94)
+        start_y = int(
+            height * 0.1885
+        )  # remove Y area from clicks on white pixels (counts)
+        # (253, 255, 254)
+        for x, y in product(range(25, width-15, 10), range(start_y, height, 10)):
+            r, g, b = screen.getpixel((x, y))
+            greenish_range = (b < 125) and (102 <= r < 220) and (200 <= g < 255)
+
+            if (r, g, b) == avoid_color:
+                continue
+
+            if greenish_range:
+                screen_x = rect[0] + x
+                screen_y = rect[1] + y
+                mouse.move(screen_x, screen_y, absolute=True)
+                mouse.click(button=mouse.LEFT)
+
+                return True
+
+        return False
+    
+    @staticmethod
+    def collect_purple(screen: Any, rect: Tuple[int, int, int, int]) -> bool:
+        """
+        Click on the found point.
+
+        :param screen: the screenshot
+        :param rect: the rectangle
+        :return: whether the image was found
+        """
+        width, height = screen.size
+        # avoid_color = (196, 247, 94)
+        # (188, 11, 156) (215, 1, 141) (254, 7, 189) (220, 15, 170) (241, 11, 179)
+        start_y = int(
+            height * 0.1885
+        )  # remove Y area from clicks on white pixels (counts)
+        # (253, 255, 254)
+        for x, y in product(range(25, width-15, 10), range(start_y, height, 10)):
+            r, g, b = screen.getpixel((x, y))
+            purplish_range = (r > 170) and (0 <= g < 20) and (130 <= b < 200)
+
+            # if (r, g, b) == avoid_color:
+            #     continue
+
+            if purplish_range:
+                screen_x = rect[0] + x
+                screen_y = rect[1] + y
+                mouse.move(screen_x, screen_y, absolute=True)
+                mouse.click(button=mouse.LEFT)
+
+                return True
+
+        return False
+
+    @staticmethod
+    def collect_brown(screen: Any, rect: Tuple[int, int, int, int]) -> bool:
+        """
+        Click on the found point.
+
+        :param screen: the screenshot
+        :param rect: the rectangle
+        :return: whether the image was found
+        """
+        width, height = screen.size
+        # avoid_color = (196, 247, 94)
+        # (146, 73, 25) (235, 158, 129) (156, 85, 38)
+        start_y = int(
+            height * 0.1885
+        )  # remove Y area from clicks on white pixels (counts)
+         
+        for x, y in product(range(25, width-15, 10), range(start_y, height, 10)):
+            r, g, b = screen.getpixel((x, y))
+            brownish_range = (135 < r < 250) and (50 <= g < 200) and (10 <= b < 150)
+
+            # if (r, g, b) == avoid_color:
+            #     continue
+
+            if brownish_range:
+                screen_x = rect[0] + x
+                screen_y = rect[1] + y
+                mouse.move(screen_x, screen_y, absolute=True)
+                mouse.click(button=mouse.LEFT)
+
+                return True
+
+        return False
+
+    @staticmethod
+    def collect_white(screen: Any, rect: Tuple[int, int, int, int]) -> bool:
+        """
+        Detepct and click on the dog's face based on its specific color.
+        :param screen: the screenshot in BGR format
+        :param rect: the bounding rectangle of the screen
+        :return: whether the dog was found
+        """
+        width, height = screen.size
+        start_y = int(
+            height * 0.1885
+        )  # remove Y area from clicks on white pixels (counts)
+        # (253, 255, 254)
+        for x, y in product(range(25, width-15, 10), range(start_y, height, 10)):
+            r, g, b = screen.getpixel((x, y))
+            white_pixel = (r > 220) and (g > 220) and (b > 220)
+            if white_pixel:
+                screen_x = rect[0] + x
+                screen_y = rect[1] + y
+                mouse.move(screen_x, screen_y, absolute=True)
+                mouse.click(button=mouse.LEFT)
+                return True
+        return False
+
+    @staticmethod
     def collect_freeze(screen: Any, rect: Tuple[int, int, int, int]) -> bool:
         """
         Click on the found freeze.
@@ -220,8 +342,11 @@ class BlumClicker:
                 screenshot = self.utils.capture_screenshot(rect)
 
                 self.collect_green(screenshot, rect)
-                self.collect_freeze(screenshot, rect)
-                self.collect_football(screenshot, rect)
+                self.collect_purple(screenshot, rect)
+                self.collect_brown(screenshot, rect)
+                self.collect_white(screenshot, rect)
+                # self.collect_freeze(screenshot, rect)
+                # self.collect_football(screenshot, rect)
 
                 self.detect_replay(screenshot, rect)
                 self.detect_reload_screen(screenshot)
