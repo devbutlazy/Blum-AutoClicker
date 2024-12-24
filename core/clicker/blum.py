@@ -8,12 +8,12 @@ import keyboard
 import mouse
 import pyautogui
 
-from core.clicker.misc import Utilities
+from core.clicker.misc import Utilities,  check_share_button
 from core.logger.logger import logger
 from core.localization.localization import get_language
 from core.config.config import get_config_value
 
-from typing import Tuple, List, Any
+from typing import Tuple, Any
 
 
 class BlumClicker:
@@ -48,7 +48,9 @@ class BlumClicker:
 
         return self.paused
 
+
     @staticmethod
+    @check_share_button
     def collect_green(screen: Any, rect: Tuple[int, int, int, int]) -> bool:
         """
         Click on the found point.
@@ -58,18 +60,25 @@ class BlumClicker:
         :return: whether the image was found
         """
         width, height = screen.size
-        start_y = int(height * 0.1885)  # remove Y area from count pixel clicks
+        x_ranges = [(0, width // 2), (width // 2, width)]
+        y_start, y_end = (
+            (0, height) if random.random() < 0.03 else (int(height * 0.25), height)
+        )
 
-        for x, y in product(range(25, width - 15, 10), range(start_y, height, 10)):
+        points = (
+            (x, y)
+            for x_start, x_end in x_ranges
+            for x, y in product(range(x_start, x_end, 20), range(y_start, y_end, 20))
+        )
+
+        for x, y in points:
             r, g, b = screen.getpixel((x, y))
-            greenish_range = (b < 125) and (102 <= r < 220) and (200 <= g < 255)
 
             if (r, g, b) == (196, 247, 94):
                 continue
 
-            if greenish_range:
-                screen_x = rect[0] + x
-                screen_y = rect[1] + y
+            if (b < 125) and (102 <= r < 220) and (200 <= g < 255):
+                screen_x, screen_y = rect[0] + x, rect[1] + y
                 mouse.move(screen_x, screen_y, absolute=True)
                 mouse.click(button=mouse.LEFT)
 
@@ -78,6 +87,7 @@ class BlumClicker:
         return False
 
     @staticmethod
+    @check_share_button
     def collect_purple(screen: Any, rect: Tuple[int, int, int, int]) -> bool:
         """
         Click on the found point.
@@ -87,23 +97,29 @@ class BlumClicker:
         :return: whether the image was found
         """
         width, height = screen.size
+        x_ranges = [(25, width // 2), (width // 2, width - 15)]
         start_y = int(height * 0.1885)  # remove Y area from count pixel clicks
 
-        for x, y in product(range(25, width - 15, 10), range(start_y, height, 10)):
-            r, g, b = screen.getpixel((x, y))
-            purplish_range = (r > 170) and (0 <= g < 20) and (130 <= b < 200)
+        points = (
+            (x, y)
+            for x_start, x_end in x_ranges
+            for x, y in product(range(x_start, x_end, 10), range(start_y, height, 10))
+        )
 
-            if purplish_range:
+        for x, y in points:
+            r, g, b = screen.getpixel((x, y))
+
+            if (r > 170) and (0 <= g < 20) and (130 <= b < 200): 
                 screen_x = rect[0] + x
                 screen_y = rect[1] + y
                 mouse.move(screen_x, screen_y, absolute=True)
                 mouse.click(button=mouse.LEFT)
-
                 return True
 
         return False
 
     @staticmethod
+    @check_share_button
     def collect_brown(screen: Any, rect: Tuple[int, int, int, int]) -> bool:
         """
         Click on the found point.
@@ -113,46 +129,97 @@ class BlumClicker:
         :return: whether the image was found
         """
         width, height = screen.size
+        x_ranges = [(25, width // 2), (width // 2, width - 15)]
         start_y = int(height * 0.1885)  # remove Y area from count pixel clicks
 
-        for x, y in product(range(25, width - 15, 10), range(start_y, height, 10)):
-            r, g, b = screen.getpixel((x, y))
-            brownish_range = (135 < r < 250) and (50 <= g < 200) and (10 <= b < 150)
+        points = (
+            (x, y)
+            for x_start, x_end in x_ranges
+            for x, y in product(range(x_start, x_end, 10), range(start_y, height, 10))
+        )
 
-            if brownish_range:
+        for x, y in points:
+            r, g, b = screen.getpixel((x, y))
+
+            if (135 < r < 250) and (50 <= g < 200) and (10 <= b < 150):
                 screen_x = rect[0] + x
                 screen_y = rect[1] + y
                 mouse.move(screen_x, screen_y, absolute=True)
                 mouse.click(button=mouse.LEFT)
+                return True
 
+        return False
+    
+    @staticmethod
+    @check_share_button
+    def collect_yellow(screen: Any, rect: Tuple[int, int, int, int]) -> bool:
+        """
+        Click on the found point.
+
+        :param screen: the screenshot in BGR format
+        :param rect: the bounding rectangle of the screen
+        :return: whether the item was found
+        """
+        width, height = screen.size
+        x_ranges = [(25, width // 2), (width // 2, width - 15)]
+        start_y = int(height * 0.7)  # remove Y area from clicks on replay button
+
+        points = (
+            (x, y)
+            for x_start, x_end in x_ranges
+            for x, y in product(
+                range(x_start, x_end, 10), range(start_y, height, 10)
+            )
+        )
+
+        for x, y in points:
+            r, g, b = screen.getpixel((x, y))
+
+            if (200 <= r <= 255) and (100 <= g <= 200) and (0 <= b <= 100) :
+                screen_x = rect[0] + x
+                screen_y = rect[1] + y
+                mouse.move(screen_x, screen_y, absolute=True)
+                mouse.click(button=mouse.LEFT)
                 return True
 
         return False
 
+
     @staticmethod
+    @check_share_button
     def collect_white(screen: Any, rect: Tuple[int, int, int, int]) -> bool:
         """
-        Detepct and click on the dog's face based on its specific color.
+        Detect and click on the dog's face based on its specific color.
         :param screen: the screenshot in BGR format
         :param rect: the bounding rectangle of the screen
         :return: whether the dog was found
         """
         width, height = screen.size
+        x_ranges = [(25, width // 2), (width // 2, width - 15)]
         start_y = int(height * 0.7)  # remove Y area from clicks on replay button
-        for x, y in product(
-            range(25, width - 15, 10), range(start_y, int(height * 0.7), 10)
-        ):
+
+        points = (
+            (x, y)
+            for x_start, x_end in x_ranges
+            for x, y in product(
+                range(x_start, x_end, 10), range(start_y, int(height * 0.7), 10)
+            )
+        )
+        for x, y in points:
             r, g, b = screen.getpixel((x, y))
-            white_pixel = (r > 220) and (g > 220) and (b > 220)
-            if white_pixel:
+
+            if (r > 220) and (g > 220) and (b > 220):
                 screen_x = rect[0] + x
                 screen_y = rect[1] + y
                 mouse.move(screen_x, screen_y, absolute=True)
                 mouse.click(button=mouse.LEFT)
                 return True
+
         return False
+    
 
     @staticmethod
+    @check_share_button
     def collect_freeze(screen: Any, rect: Tuple[int, int, int, int]) -> bool:
         """
         Click on the found freeze.
@@ -162,12 +229,18 @@ class BlumClicker:
         :return: whether the image was found
         """
         width, height = screen.size
+        x_ranges = [(0, width // 2), (width // 2, width)]
 
-        for x, y in product(range(0, width, 10), range(0, height, 10)):
+        points = (
+            (x, y)
+            for x_start, x_end in x_ranges
+            for x, y in product(range(x_start, x_end, 10), range(0, height, 10))
+        )
+
+        for x, y in points:
             r, g, b = screen.getpixel((x, y))
-            blueish_range = (215 < b < 255) and (100 <= r < 166) and (220 <= g < 254)
 
-            if blueish_range:
+            if (215 < b < 255) and (100 <= r < 166) and (220 <= g < 254):
                 screen_x = rect[0] + x
                 screen_y = rect[1] + y
                 mouse.move(screen_x, screen_y, absolute=True)
@@ -230,8 +303,14 @@ class BlumClicker:
         logger.debug(
             f"Detected the replay button. Remaining replays: {max_replays - self.replays} // Delay: {delay:.2f}"
         )
+
         time.sleep(delay)
 
+        if self.replays != 0 and self.replays % get_config_value("GAMES_BETWEEN_REFRESH") == 0:
+            keyboard.press_and_release("F5")
+            logger.debug("Refreshed the game for better performance")
+            time.sleep(0.5)
+        
         mouse.move(
             screen_x + random.randint(1, 10),
             screen_y + random.randint(1, 10),
@@ -269,6 +348,7 @@ class BlumClicker:
                 self.collect_purple(screenshot, rect)
                 self.collect_brown(screenshot, rect)
                 self.collect_white(screenshot, rect)
+                self.collect_yellow(screenshot, rect)
                 # self.collect_freeze(screenshot, rect)
 
                 self.detect_replay(screenshot, rect)

@@ -2,7 +2,31 @@ import pyautogui
 import pywinctl as pwc
 
 from typing import Tuple, Any
+from functools import wraps
 from dataclasses import dataclass
+
+
+def check_share_button(func):
+    """
+    Decorator to check if the share button is present on the screen.
+    If the share button is visible, the function will return False,
+    avoiding further actions like clicking.
+    """
+
+    @wraps(func)
+    def wrapper(screen, rect, *args, **kwargs):
+        width, height = screen.size
+        share_button_check = screen.getpixel(
+            (int(width * 0.16), int(height * 0.76))
+        ) == (40, 40, 40)
+
+        if share_button_check:
+            return False
+
+        return func(screen, rect, *args, **kwargs)
+
+    return wrapper
+
 
 @dataclass
 class Utilities:

@@ -80,8 +80,19 @@ Clone this [**Repository**](https://github.com/devbutlazy/Blum-AutoClicker) and 
 ~/Blum-AutoClicker >>> python3 main.py --delay 5 # Example
 
 # Windows
-~/Blum-AutoClicker >>> python main.py --delay 5 # Set the delay between replays
+~/Blum-AutoClicker >>> python main.py --delay delay_in_seconds # Set the delay between replays
 ~/Blum-AutoClicker >>> python main.py --delay 5 # Example
+```
+
+- [x] Refresh at N-count games
+```shell
+# GNU/Linux
+~/Blum-AutoClicker >>> python3 main.py --refresh count_of_games # Set the delay between replays
+~/Blum-AutoClicker >>> python3 main.py --refresh 10 # Example
+
+# Windows
+~/Blum-AutoClicker >>> python main.py --refresh count_of_games # Set the delay between replays
+~/Blum-AutoClicker >>> python main.py --refresh 10 # Example
 ```
 
 > [!IMPORTANT]

@@ -2,6 +2,7 @@
     "LANGUAGE": "en",
     "REPLAYS": 50,
     "REPLAY_DELAY": 3,
+    "GAMES_BETWEEN_REFRESH": 10,
     "TOGGLE_HOTKEY": "p",
     "START_HOTKEY": "s"
 }

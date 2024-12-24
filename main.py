@@ -18,7 +18,6 @@ AUTOCLICKER_TEXT = """
 """
 
 
-    
 async def main() -> None:
     """
     The main function of the Blum AutoClicker.
@@ -33,14 +32,15 @@ async def main() -> None:
 
     print(AUTOCLICKER_TEXT)
     print("\033[34m~ " + get_language("CREDITS") + "\033[0m")
-    print("\033[34m~ Telegram: https://t.me/blogbutlazy & https://t.me/chatbutlazy\033[0m")
+    print(
+        "\033[34m~ Telegram: https://t.me/blogbutlazy & https://t.me/chatbutlazy\033[0m"
+    )
     print(
         "\033[1;33;48m"
         + get_language("DONATION")
         + "\033[1;37;0m "
         + "UQD2g_C_aIeZ7-zAJ7uOQJUsr538vPcd_GljLeA-iRZL7tzF\n"
     )
-
 
     clicker = BlumClicker()
     await clicker.run()
@@ -68,12 +68,18 @@ if __name__ == "__main__":
         type=int,
         help="Set the delay between replays in seconds (e.g., --delay 5)",
     )
+    parser.add_argument(
+        "--refresh",
+        type=int,
+        help="Set the number of games between refresh (e.g., --refresh 10)",
+    )
     args = parser.parse_args()
 
     config_mapping = {
         "lang": ("LANGUAGE", args.lang),
         "replays": ("REPLAYS", args.replays),
-        "delay": ("REPLAY_DELAY", args.delay)
+        "delay": ("REPLAY_DELAY", args.delay),
+        "refresh": ("GAMES_BETWEEN_REFRESH", args.refresh),
     }
 
     for arg, (config_key, config_value) in config_mapping.items():
@@ -83,4 +89,3 @@ if __name__ == "__main__":
         asyncio.run(main())
     except KeyboardInterrupt:
         logger.error("Exited due to keyboard interrupt.")
-
