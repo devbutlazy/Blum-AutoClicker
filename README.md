@@ -18,24 +18,28 @@
     TON: UQD2g_C_aIeZ7-zAJ7uOQJUsr538vPcd_GljLeA-iRZL7tzF
 
 ## ⚡ v2 Features
-1. Better and faster detection of points;
-2. Human clicks emulation by miss-clicking sometimes;
-3. Localization to different languages;
-4. Ayugram, 64Gram, Nekogram, Telegram Desktop support;
+1. Work on the latest XMas updates 
+2. Better and faster detection of points;
+3. Human clicks emulation by miss-clicking sometimes;
+4. Localization to different languages;
+5. Ayugram, 64Gram, Nekogram, Telegram Desktop support;
 
 
 ## 📕 Installation
-### See the instructions video on [YouTube]()
+> [!TIP]
+> See the instructions video on [YouTube](https://www.youtube.com/watch?v=euLpqjLB8jk)
   
 Clone this [**Repository**](https://github.com/devbutlazy/Blum-AutoClicker) and run the soft:
 ```shell
 - Enable Web Inspecting in Telegram Exprimental features
+
+~ >>> git clone https://github.com/devbutlazy/Blum-AutoClicker  
+~ >>> cd Blum-AutoClicker
+
 - Open Blum window
 - Press F12 and enable Override to ./override
 - Type "location.reload(true);" to dev console
 
-~ >>> git clone https://github.com/devbutlazy/Blum-AutoClicker  
-~ >>> cd Blum-AutoClicker
 ~/Blum-AutoClicker >>> python -m venv venv # Create a virtual environment
 ~/Blum-AutoClicker >>> venv\Scripts\activate # Activate the venv
 ~/Blum-AutoClicker >>> pip install -r requirements.txt # Install the required dependencies
@@ -112,6 +116,7 @@ Without this people the developing proccess wouldn't happen so fast (or at all),
 - [Nixxoq](https://github.com/nixxoq) - mental support, responsible for latest update (TC11RhiWns9tifP1F6eiek9dzBFtGCne5S)
 - [BRamil](https://github.com/BRamil1) - is responsible for the newest update and Polish localization 
 - [qt333](https://github.com/qt333) - helped with dogs and replay button recognition
+- [Gartner](https://t.me/waffenssgartner) - helped with video insturctions
 - [Redish](https://github.com/xxmmcxx) - is responsible for Farsi localization
 - [vjaykrsna](https://github.com/vjaykrsna) - helped with fixing the collecting only on left side issue
 
