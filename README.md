@@ -114,7 +114,7 @@ If you have any ideas or suggestions to make, feel free to [open an issue](https
 # 🤝 Special Thanks
 Without this people the developing proccess wouldn't happen so fast (or at all), so I must menion them.
 - [Nixxoq](https://github.com/nixxoq) - mental support, responsible for latest update (TC11RhiWns9tifP1F6eiek9dzBFtGCne5S)
-- [BRamil](https://github.com/BRamil1) - is responsible for the newest update and Polish localization 
+- [BRamil](https://github.com/BRamil0) - is responsible for the newest update and Polish localization 
 - [qt333](https://github.com/qt333) - helped with dogs and replay button recognition
 - [Gartner](https://t.me/waffenssgartner) - helped with video insturctions
 - [Redish](https://github.com/xxmmcxx) - is responsible for Farsi localization
