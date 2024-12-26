@@ -109,7 +109,7 @@
 # ✍️ Внесок
 Частиною того, що робить спільноту відкритого коду особливою, є внески. Будь-який внесок буде **дуже доречний!**.
 
-Якщо у вас є ідеї або пропозиції, не соромтеся [відкрити тему](https://github.com/devbutlazy/Blum-AutoClicker/issues) чи [Злиття (Пул Реквест)](https://github.com/devbutlazy/Blum-AutoClicker/pulls)
+Якщо у вас є ідеї або пропозиції, не соромтеся [відкрити тему](https://github.com/devbutlazy/Blum-AutoClicker/issues) чи [запит на злиття (Пул Реквест)](https://github.com/devbutlazy/Blum-AutoClicker/pulls)
 
 <br>
 
@@ -120,7 +120,7 @@
 - [qt333](https://github.com/qt333) - допоміг з "dogs" та розпізнаванням кнопок повторного відтворення
 - [Gartner](https://t.me/waffenssgartner) - допомогіг з відеоінструкціями
 - [Redish](https://github.com/xxmmcxx) - допоміг з перекладом на Перську мову
-- [vjaykrsna](https://github.com/vjaykrsna) - helped with fixing the collecting only on left side issue
+- [vjaykrsna](https://github.com/vjaykrsna) - допоміг виправити проблему, із-за якої программа збирала лише на лівій частині екрану
 
 <br>
 
