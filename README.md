@@ -1,5 +1,7 @@
 [<img src="https://img.shields.io/badge/python-3.11-blue">](https://www.python.org/downloads/) [<img src="https://img.shields.io/badge/python-3.12-blue">](https://www.python.org/downloads/) [<img src="https://img.shields.io/badge/python-3.13+-blue">](https://www.python.org/downloads/)
 
+### [Українська версія README](/README-UKR.md)
+
 # [Blum Auto Clicker](https://t.me/blum/app?startapp=ref_hX75eRFPqv)
 
 ![image](https://github.com/user-attachments/assets/d9496bed-c1a0-4a1b-9673-1e64d0441621)
