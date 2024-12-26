@@ -313,7 +313,7 @@ class BlumClicker:
         
         mouse.move(
             screen_x + random.randint(1, 10),
-            screen_y + random.randint(1, 10),
+            screen_y,
             absolute=True,
         )
         mouse.click(button=mouse.LEFT)

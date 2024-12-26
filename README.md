@@ -25,19 +25,17 @@
 
 
 ## 📕 Installation
+### See the instructions video on [YouTube]()
+  
 Clone this [**Repository**](https://github.com/devbutlazy/Blum-AutoClicker) and run the soft:
 ```shell
+- Enable Web Inspecting in Telegram Exprimental features
+- Open Blum window
+- Press F12 and enable Override to ./override
+- Type "location.reload(true);" to dev console
+
 ~ >>> git clone https://github.com/devbutlazy/Blum-AutoClicker  
 ~ >>> cd Blum-AutoClicker
-
-
-# GNU/Linux
-~/Blum-AutoClicker >>> python3 -m venv venv # Create a virtual environment
-~/Blum-AutoClicker >>> source venv/bin/activate # Activate the venv
-~/Blum-AutoClicker >>> pip install -r requirements.txt # Install the required dependencies
-~/Blum-AutoClicker >>> python3 main.py # Run the soft and install dependencies
-
-# Windows
 ~/Blum-AutoClicker >>> python -m venv venv # Create a virtual environment
 ~/Blum-AutoClicker >>> venv\Scripts\activate # Activate the venv
 ~/Blum-AutoClicker >>> pip install -r requirements.txt # Install the required dependencies
@@ -111,9 +109,9 @@ If you have any ideas or suggestions to make, feel free to [open an issue](https
 
 # 🤝 Special Thanks
 Without this people the developing proccess wouldn't happen so fast (or at all), so I must menion them.
-- [Nixxoq](https://github.com/nixxoq) - mental support (always helped when I asked)
+- [Nixxoq](https://github.com/nixxoq) - mental support, responsible for latest update (TC11RhiWns9tifP1F6eiek9dzBFtGCne5S)
+- [BRamil](https://github.com/BRamil1) - is responsible for the newest update and Polish localization 
 - [qt333](https://github.com/qt333) - helped with dogs and replay button recognition
-- [BRamil](https://github.com/BRamil1) - is responsible for Polish localization
 - [Redish](https://github.com/xxmmcxx) - is responsible for Farsi localization
 - [vjaykrsna](https://github.com/vjaykrsna) - helped with fixing the collecting only on left side issue
 
