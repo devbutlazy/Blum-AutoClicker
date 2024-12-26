@@ -109,7 +109,7 @@
 # ✍️ Внесок
 Частиною того, що робить спільноту відкритого коду особливою, є внески. Будь-який внесок буде **дуже доречний!**.
 
-Якщо у вас є ідеї або пропозиції, не соромтеся [відкрити тему](https://github.com/devbutlazy/Blum-AutoClicker/issues) or [submit a PR](https://github.com/devbutlazy/Blum-AutoClicker/pulls)
+Якщо у вас є ідеї або пропозиції, не соромтеся [відкрити тему](https://github.com/devbutlazy/Blum-AutoClicker/issues) чи [Злиття (Пул Реквест)](https://github.com/devbutlazy/Blum-AutoClicker/pulls)
 
 <br>
 
