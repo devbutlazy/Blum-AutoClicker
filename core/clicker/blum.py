@@ -7,8 +7,9 @@ from itertools import product
 import keyboard
 import mouse
 import pyautogui
+import pywinctl as pwc
 
-from core.clicker.misc import Utilities,  check_share_button
+from core.clicker.misc import Utilities, check_share_button
 from core.logger.logger import logger
 from core.localization.localization import get_language
 from core.config.config import get_config_value
@@ -19,6 +20,7 @@ from typing import Tuple, Any
 class BlumClicker:
     def __init__(self):
         self.utils = Utilities()
+        self.window = None
 
         self.paused: bool = True
         self.replay_limit_logged = False
@@ -47,7 +49,6 @@ class BlumClicker:
             await asyncio.sleep(0.2)
 
         return self.paused
-
 
     @staticmethod
     @check_share_button
@@ -109,7 +110,7 @@ class BlumClicker:
         for x, y in points:
             r, g, b = screen.getpixel((x, y))
 
-            if (r > 170) and (0 <= g < 20) and (130 <= b < 200): 
+            if (r > 170) and (0 <= g < 20) and (130 <= b < 200):
                 screen_x = rect[0] + x
                 screen_y = rect[1] + y
                 mouse.move(screen_x, screen_y, absolute=True)
@@ -149,7 +150,7 @@ class BlumClicker:
                 return True
 
         return False
-    
+
     @staticmethod
     @check_share_button
     def collect_yellow(screen: Any, rect: Tuple[int, int, int, int]) -> bool:
@@ -167,15 +168,13 @@ class BlumClicker:
         points = (
             (x, y)
             for x_start, x_end in x_ranges
-            for x, y in product(
-                range(x_start, x_end, 10), range(start_y, height, 10)
-            )
+            for x, y in product(range(x_start, x_end, 10), range(start_y, height, 10))
         )
 
         for x, y in points:
             r, g, b = screen.getpixel((x, y))
 
-            if (200 <= r <= 255) and (100 <= g <= 200) and (0 <= b <= 100) :
+            if (200 <= r <= 255) and (100 <= g <= 200) and (0 <= b <= 100):
                 screen_x = rect[0] + x
                 screen_y = rect[1] + y
                 mouse.move(screen_x, screen_y, absolute=True)
@@ -183,7 +182,6 @@ class BlumClicker:
                 return True
 
         return False
-
 
     @staticmethod
     @check_share_button
@@ -216,7 +214,6 @@ class BlumClicker:
                 return True
 
         return False
-    
 
     @staticmethod
     @check_share_button
@@ -272,6 +269,55 @@ class BlumClicker:
 
         return False
 
+    def close_extra_windows(self):
+        """
+        Close Telegram app.
+
+        :return: None
+        """
+        window = pwc.getActiveWindow()
+        if window.title != self.window.title and not window.title in ["Terminal", "Powershell", "cmd"]: 
+            window.hide()
+            logger.error(f"Unwanted window hidden ({window.title})")
+
+    @staticmethod
+    def reload_overrides() -> None:
+        """
+        Reload app with window focus handling.
+
+        :return: None
+        """
+        try:
+            if not pwc.getActiveWindow():
+                raise Exception("No active window found to reload")
+
+            keyboard.press_and_release("f12")
+            time.sleep(2)
+
+            devtools_window = next(
+                (
+                    window
+                    for window in pwc.getAllWindows()
+                    if "DevTools" in window.title
+                ),
+                None,
+            )
+            if not devtools_window:
+                raise Exception(
+                    "Telegram Inspect WebView window not found. Try enabling Web Inspecting in experimental features."
+                )
+            devtools_window.activate()
+
+            keyboard.press_and_release("ctrl+f5")
+            time.sleep(5)
+
+            keyboard.press_and_release("alt+f4")
+
+            pwc.getActiveWindow().activate()
+            logger.debug("Refreshed the game for better performance")
+        except BaseException as error:
+            logger.error(f"Error during reload: {error}")
+
     def detect_replay(self, screen: Any, rect: Tuple[int, int, int, int]) -> bool:
         """
         Click on the 'Play (nn left)' button.
@@ -284,10 +330,18 @@ class BlumClicker:
         max_replays = get_config_value("REPLAYS")
         replay_delay = get_config_value("REPLAY_DELAY")
 
-        screen_x = rect[0] + int(screen.size[0] * 0.3075)
-        screen_y = rect[1] + int(screen.size[1] * 0.87)
+        left_check_x, left_check_y = (
+            rect[0] + int(screen.size[0] * 0.142),
+            rect[1] + int(screen.size[1] * 0.86),
+        )
+        right_check_x, right_check_y = (
+            rect[0] + int(screen.size[0] * 0.794),
+            rect[1] + int(screen.size[1] * 0.85),
+        )
+        left_pixel = pyautogui.pixel(left_check_x, left_check_y)
+        right_pixel = pyautogui.pixel(right_check_x, right_check_y)
 
-        if not pyautogui.pixel(screen_x, screen_y) == (255, 255, 255):
+        if left_pixel != (255, 255, 255) or right_pixel != (255, 255, 255):
             return False
 
         if self.replays >= max_replays:
@@ -304,16 +358,18 @@ class BlumClicker:
             f"Detected the replay button. Remaining replays: {max_replays - self.replays} // Delay: {delay:.2f}"
         )
 
+        self.close_extra_windows()
         time.sleep(delay)
 
-        if self.replays != 0 and self.replays % get_config_value("GAMES_BETWEEN_REFRESH") == 0:
-            keyboard.press_and_release("F5")
-            logger.debug("Refreshed the game for better performance")
-            time.sleep(0.5)
-        
+        if (
+            self.replays != 0
+            and self.replays % get_config_value("GAMES_BETWEEN_REFRESH") == 0
+        ):
+            self.reload_overrides()
+
         mouse.move(
-            screen_x + random.randint(1, 10),
-            screen_y,
+            left_check_x + random.randint(1, 10),
+            right_check_y,
             absolute=True,
         )
         mouse.click(button=mouse.LEFT)
@@ -339,7 +395,10 @@ class BlumClicker:
             while True:
                 if await self.handle_input():
                     continue
-
+                
+                self.window = window
+                self.close_extra_windows()
+                
                 rect = self.utils.get_rect(window)
 
                 screenshot = self.utils.capture_screenshot(rect)
