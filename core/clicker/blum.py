@@ -276,7 +276,7 @@ class BlumClicker:
         :return: None
         """
         window = pwc.getActiveWindow()
-        if window.title != self.window.title and not window.title in ["Terminal", "Powershell", "cmd"]: 
+        if window.title != self.window.title and not window.title in ["Terminal", "Powershell", "cmd", "DevTools"]: 
             window.hide()
             logger.error(f"Unwanted window hidden ({window.title})")
 
