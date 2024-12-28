@@ -20,7 +20,7 @@ from typing import Tuple, Any
 class BlumClicker:
     def __init__(self):
         self.utils = Utilities()
-        self.window = None
+        self.whitelist_windows: list[str] = get_config_value("WHITELIST_WINDOWS")
 
         self.paused: bool = True
         self.replay_limit_logged = False
@@ -275,8 +275,7 @@ class BlumClicker:
 
         :return: None
         """
-        window = pwc.getActiveWindow()
-        if window.title != self.window.title and not window.title in ["Terminal", "Powershell", "cmd", "DevTools"]: 
+        if (window := pwc.getActiveWindow()).title not in self.whitelist_windows:
             window.hide()
             logger.error(f"Unwanted window hidden ({window.title})")
 
@@ -357,8 +356,7 @@ class BlumClicker:
         logger.debug(
             f"Detected the replay button. Remaining replays: {max_replays - self.replays} // Delay: {delay:.2f}"
         )
-
-        self.close_extra_windows()
+        
         time.sleep(delay)
 
         if (
@@ -384,21 +382,24 @@ class BlumClicker:
         Runs the clicker.
         """
         try:
+            self.whitelist_windows.append(self.utils.get_terminal_name())
+    
             window = self.utils.get_window()
             if not window:
                 return logger.error(get_language("WINDOW_NOT_FOUND"))
-
+            
+            self.whitelist_windows.append(window.title)
+            
             logger.info(get_language("CLICKER_INITIALIZED"))
             logger.info(get_language("FOUND_WINDOW").format(window=window.title))
             logger.info(get_language("PRESS_S_TO_START"))
-
+    
             while True:
                 if await self.handle_input():
                     continue
-                
-                self.window = window
+
                 self.close_extra_windows()
-                
+
                 rect = self.utils.get_rect(window)
 
                 screenshot = self.utils.capture_screenshot(rect)

@@ -4,5 +4,6 @@
     "REPLAY_DELAY": 3,
     "GAMES_BETWEEN_REFRESH": 5,
     "TOGGLE_HOTKEY": "p",
-    "START_HOTKEY": "s"
+    "START_HOTKEY": "s",
+    "WHITELIST_WINDOWS": ["DevTools", "devtools"]
 }

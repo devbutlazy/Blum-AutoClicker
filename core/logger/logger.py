@@ -1,11 +1,12 @@
 import sys
+import os
 from loguru import logger
+from datetime import datetime
 
 
 def logging_setup():
     logger.remove()
 
-    # Add a handler for DEBUG level messages (blue)
     logger.add(
         sys.stdout,
         colorize=True,
@@ -14,7 +15,6 @@ def logging_setup():
         filter=lambda record: record["level"].name == "DEBUG",
     )
 
-    # Add a handler for INFO level messages (green)
     logger.add(
         sys.stdout,
         colorize=True,
@@ -23,13 +23,27 @@ def logging_setup():
         filter=lambda record: record["level"].name == "INFO",
     )
 
-    # Add a handler for ERROR level messages (red)
     logger.add(
         sys.stdout,
         colorize=True,
         format="<red>{time:HH:mm:ss.SS}</red> | <level>{message}</level>",
         level="ERROR",
         filter=lambda record: record["level"].name == "ERROR",
+    )
+
+    log_file_path = os.path.join(
+        "logs", f"{datetime.now().strftime('%d_%m_%H_%M')}_logs.txt"
+    )
+    
+    os.makedirs(os.path.dirname(log_file_path), exist_ok=True)
+
+    logger.add(
+        log_file_path,
+        format="{time:YYYY-MM-DD HH:mm:ss.SS} | <level>{message}</level>",
+        level="DEBUG",
+        rotation="00:00",
+        retention="7 days", 
+        compression="zip", 
     )
 
 

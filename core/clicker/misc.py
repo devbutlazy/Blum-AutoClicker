@@ -1,9 +1,13 @@
+import ctypes
+import ctypes.wintypes  
+
 import pyautogui
 import pywinctl as pwc
 
 from typing import Tuple, Any
 from functools import wraps
 from dataclasses import dataclass
+
 
 
 def check_share_button(func):
@@ -76,3 +80,20 @@ class Utilities:
             return window
 
         return None
+
+    @staticmethod
+    def get_terminal_name() -> str:
+        """
+        Get the name of the active terminal window.
+
+        :return: The name of the active terminal window
+        """
+        hwnd = ctypes.windll.user32.GetForegroundWindow()
+        
+        # Allocate buffer for the title
+        length = ctypes.windll.user32.GetWindowTextLengthW(hwnd)
+        buffer = ctypes.create_unicode_buffer(length + 1)
+        
+        ctypes.windll.user32.GetWindowTextW(hwnd, buffer, length + 1)
+        
+        return buffer.value
