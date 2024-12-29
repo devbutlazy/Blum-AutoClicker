@@ -1,9 +1,12 @@
 {
     "LANGUAGE": "en",
-    "REPLAYS": 104,
+
+    "REPLAYS": 60,
     "REPLAY_DELAY": 3,
     "GAMES_BETWEEN_REFRESH": 5,
+
     "TOGGLE_HOTKEY": "p",
     "START_HOTKEY": "s",
-    "WHITELIST_WINDOWS": ["DevTools", "devtools"]
+
+    "WHITELIST_WINDOWS": ["DevTools","devtools"]
 }
