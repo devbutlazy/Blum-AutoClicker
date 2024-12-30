@@ -6,7 +6,5 @@
     "GAMES_BETWEEN_REFRESH": 5,
 
     "TOGGLE_HOTKEY": "p",
-    "START_HOTKEY": "s",
-
-    "WHITELIST_WINDOWS": ["DevTools","devtools"]
+    "START_HOTKEY": "s"
 }
